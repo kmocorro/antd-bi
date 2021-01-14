@@ -3,7 +3,7 @@ import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/i
 
 const { Header, Content, Footer, Sider } = Layout
 
-const LayoutComponent = () => {
+const LayoutComponent = (props) => {
   return (
     <div>
     <Layout>
@@ -36,17 +36,16 @@ const LayoutComponent = () => {
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout>
-        <Header className="site-layout-sub-header-background" style={{ padding: 0, backgroundColor: '#fff' }} />
+      <Layout style={{ background: '#fff'}}>
+        <Header className="site-layout-sub-header-background" style={{ padding: 0, backgroundColor: '#fff'}} >
+          <p style={{float: 'right', marginRight: 20}}>{props.name}</p>
+        </Header>
         <Content style={{ margin: '24px 16px 0' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            content
-            content
-            content
-            content
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 650 }}>
+            {props.children}
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Project Bright by CLIPP Team</Footer>
       </Layout>
     </Layout>
     <style jsx>{`
@@ -55,7 +54,6 @@ const LayoutComponent = () => {
         background: rgba(255, 255, 255, 0.2);
         margin: 16px;
       }
-      
       .site-layout-sub-header-background {
         background: #fff;
       }
