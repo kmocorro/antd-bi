@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Form, Input, Button, Checkbox, Typography } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined, BulbTwoTone } from '@ant-design/icons'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
 const { Title, Text } = Typography
-
 const NormalLogin = () => {
   const router = useRouter()
   const [ token, setToken ] = useState('')
   const [ loginResponse, setLoginResponse ] = useState('')
+  const [ hiddenForm, setHiddenForm ] = useState(false)
 
   const onFinish = async (values) => {
+    setHiddenForm(true)
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     //headers.append('Authorization', '123456789');
@@ -39,6 +40,7 @@ const NormalLogin = () => {
     } else {
       cookies.set('token', '');
       setLoginResponse(token.err)
+      setHiddenForm(false)
     }
     
   }, [token])
@@ -47,8 +49,9 @@ const NormalLogin = () => {
   return (
     <div className="login-form">
     <Typography>
-      <Title>Project BI</Title>
+      <Title strong style={{color: '#333'}}>Project Br<BulbTwoTone twoToneColor="#333" />ght</Title>
     </Typography>
+    <div hidden={hiddenForm}>
     <Form
       name="normal_login"
       className="login-form"
@@ -101,11 +104,13 @@ const NormalLogin = () => {
         </Button>
       </Form.Item>
     </Form>
+    </div>
     <style jsx>{`
       .login-form {
-        max-width: 300px;
-        margin: auto;
-        margin-top: 100px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
       .login-form-forgot {
         float: right;
