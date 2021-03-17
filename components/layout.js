@@ -1,6 +1,7 @@
 import { Layout, Menu, Button, Typography, Avatar, BackTop } from 'antd'
-import { AuditOutlined, HomeOutlined, ExceptionOutlined, InteractionOutlined, FileSearchOutlined, SearchOutlined, LogoutOutlined, GlobalOutlined, BulbTwoTone } from '@ant-design/icons'
+import { AuditOutlined, HomeOutlined, ExceptionOutlined, InteractionOutlined, FileSearchOutlined, SearchOutlined, LogoutOutlined, GlobalOutlined, BulbTwoTone, NotificationOutlined, ExperimentOutlined, LikeOutlined, ApartmentOutlined } from '@ant-design/icons'
 import Cookies from 'universal-cookie'
+import NextImage from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 const cookies = new Cookies()
@@ -15,10 +16,10 @@ const LayoutComponent = (props) => {
   const [ selectedKey, setSelectedKey ] = useState(
     router.pathname === '/' ? '1'
     : router.pathname === '/feasibility' ? '2'
-    : router.pathname === '/risk' ? '3'  
-    : router.pathname === '/action' ? '4' 
-    : router.pathname === '/summary' ? '5' 
-    : router.pathname === '/search' ? '6' 
+    : router.pathname === '/riskassessment' ? '3'  
+    : router.pathname === '/actionrequest' ? '4' 
+    : router.pathname === '/implementation' ? '5' 
+    : router.pathname === '/summary' ? '6' 
     : ''
   )
 
@@ -86,16 +87,16 @@ const LayoutComponent = (props) => {
           <Menu.Item key="1" onClick={onHome} icon={<HomeOutlined />}>
             Home
           </Menu.Item>
-          <Menu.Item key="2" onClick={onFeasibility} icon={<AuditOutlined/>} >
+          <Menu.Item key="2" onClick={onFeasibility} icon={<ApartmentOutlined />} >
             For Feasibility
           </Menu.Item>
-          <Menu.Item key="3" onClick={onRisk} icon={<ExceptionOutlined />} >
+          <Menu.Item key="3" onClick={onRisk} icon={<ExperimentOutlined />} >
             For Risk Assessment        
           </Menu.Item>
-          <Menu.Item key="4" onClick={onActionRequest} icon={<InteractionOutlined />}>
+          <Menu.Item key="4" onClick={onActionRequest} icon={<NotificationOutlined />}>
             Action Request
           </Menu.Item>
-          <Menu.Item key="5" onClick={onImplementation} icon={<InteractionOutlined />}>
+          <Menu.Item key="5" onClick={onImplementation} icon={<LikeOutlined />}>
             Implementation
           </Menu.Item>
           <Menu.Item key="6" onClick={onSummary} icon={<FileSearchOutlined />}>
@@ -106,6 +107,11 @@ const LayoutComponent = (props) => {
             Search
           </Menu.Item>
           */}
+          <div style={{bottom: 0, padding: 20, position:'absolute', zIndex: 1}}>
+            <div>
+              <NextImage src="/doge.png" width={80} height={100} />
+            </div>
+          </div>
         </Menu>
       </Sider>
       <Layout>

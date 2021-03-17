@@ -19,8 +19,8 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
   return (
     <Modal
       visible={visible}
-      title="Create a new bright idea"
-      okText="Create"
+      title="Submit a new bright idea"
+      okText="Submit"
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={() => {
@@ -45,7 +45,7 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
       >
         <Form.Item
           name="title"
-          label="Title"
+          label="Give a name to your idea!"
           rules={[
             {
               required: true,
@@ -69,7 +69,7 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
         </Form.Item>
         <Form.Item
           name="proposal"
-          label="Proposal"
+          label="Tell us more about your idea or your proposal"
           rules={[
             {
               required: true,
@@ -81,7 +81,8 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
         </Form.Item>
         <Form.Item
           name="benefactor"
-          label="Beneficiary"
+          help="beneficiary of your idea"
+          label="Tell us in which team your idea will fit"
           rules={[
             {
               required: true,

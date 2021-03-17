@@ -161,19 +161,18 @@ const Index = () => {
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
   //console.log(post)
-  //console.log(user)
-  console.log(post)
-
+  console.log(user)
+  //console.log(post)
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div style={{marginBottom: 16}}>
         <Card>
         <Typography>
-          <Title>Hi.</Title>
+          <Title level={2}>👋 Hi {user.name}!</Title>
         </Typography>
         <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
         <Button 
-          type="dashed" 
+          type="primary" 
           icon={<PlusOutlined />} 
           size="large" 
           onClick={() => {
