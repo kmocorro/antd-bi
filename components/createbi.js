@@ -49,11 +49,11 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
           rules={[
             {
               required: true,
-              message: 'Please input the title of BI.',
+              message: 'Please input the title of BI. (max 80)',
             },
           ]}
         >
-          <Input />
+          <Input maxLength={80} />
         </Form.Item>
         <Form.Item
           name="current_practice"
@@ -61,11 +61,11 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
           rules={[
             {
               required: true,
-              message: 'Please input your current practice why did you come up with an idea.',
+              message: 'Please input your current practice why did you come up with an idea. (max 330)',
             },
           ]}
         >
-          <Input.TextArea />
+          <Input.TextArea maxLength={330} rows={5} />
         </Form.Item>
         <Form.Item
           name="proposal"
@@ -73,15 +73,14 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
           rules={[
             {
               required: true,
-              message: 'Please describe your idea.',
+              message: 'Please describe your idea. (max 500)',
             },
           ]}
         >
-          <Input.TextArea />
+          <Input.TextArea maxLength={500} rows={8} />
         </Form.Item>
         <Form.Item
           name="benefactor"
-          help="beneficiary of your idea"
           label="Tell us in which team your idea will fit"
           rules={[
             {
