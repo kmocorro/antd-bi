@@ -107,11 +107,6 @@ const LayoutComponent = (props) => {
             Search
           </Menu.Item>
           */}
-          <div style={{bottom: 0, padding: 20, position:'absolute', zIndex: 1}}>
-            <div>
-              <NextImage src="/doge.png" width={80} height={100} />
-            </div>
-          </div>
         </Menu>
       </Sider>
       <Layout>

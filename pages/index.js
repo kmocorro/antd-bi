@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import NextImage from 'next/image'
 import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
@@ -168,26 +169,35 @@ const Index = () => {
     <Layout name={user.name} employee_number={user.employee_number}>
       <div style={{marginBottom: 16}}>
         <Card>
-        <Typography>
-          <Title level={3}>Hi {user.name}! 👋</Title>
-        </Typography>
-        <Row gutter={[16, 24]}>
-          <Col span={4}>
-            <Statistic title={<>Score <Tooltip title="Overall score of your implemented Bright Ideas" placement="right"><QuestionCircleOutlined /></Tooltip></>} value={0} suffix={<StarTwoTone twoToneColor="#FFD700" />} />
-          </Col>
-        </Row>
-        <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          onClick={() => {
-            setOnCreateResponse('')
-            setVisible(true);
-          }}
-        >
-          Submit a Bright Idea
-        </Button>
-        </Tooltip>
+        <div style={{ display: 'flex'}}>
+          <div style={{margin: 10}}>
+            <NextImage src="/doge.png" width={150} height={180} />
+          </div>
+          <div style={{marginTop: 40}}>
+            <Typography>
+              <Title level={3}>Hi {user.name}! 👋</Title>
+            </Typography>
+            <Statistic 
+              title={<>Score <Tooltip title="Overall score of your implemented Bright Ideas" placement="right">
+              <QuestionCircleOutlined /></Tooltip></>} 
+              value={0} 
+              suffix={<StarTwoTone twoToneColor="#FFD700" />} 
+            />
+            <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
+            <Button 
+              type="primary" 
+              icon={<PlusOutlined />} 
+              onClick={() => {
+                setOnCreateResponse('')
+                setVisible(true);
+              }}
+              style={{marginTop: 10}}
+            >
+              Submit a Bright Idea
+            </Button>
+            </Tooltip>
+          </div>
+        </div>
         </Card>
         <CreateBrightIdeaForm
           visible={visible}
