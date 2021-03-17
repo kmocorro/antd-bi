@@ -61,6 +61,9 @@ const initialImpact_list = [
   {id: 4, name: 'Yield'},
   {id: 5, name: 'Spares'},
   {id: 6, name: 'IDM / Test Wafers'},
+  {id: 7, name: 'Safety'},
+  {id: 8, name: '5S'},
+  {id: 9, name: 'Facilities'},
 ];
 const shift_list = [
   {id: 1, name: 'X'},

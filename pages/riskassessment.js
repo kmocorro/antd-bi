@@ -6,9 +6,8 @@ const { Title } = Typography
 import useSWR from 'swr'
 import FrontLoading from '../components/frontLoading'
 import Cookies from 'universal-cookie'
-import FeasibilityTable from '../components/feasbilitytable'
+import RiskAssessmentTable from '../components/riskassessmenttable'
 const cookies = new Cookies()
-
 
 // get user data
 const fetcher = url => fetch(url).then(r => r.json())
@@ -29,7 +28,7 @@ function useUser(token){
   }
 }
 
-const fetchWithFaBody = (url, user) => fetch(url, {
+const fetchWithRaBody = (url, user) => fetch(url, {
   headers: { 'Content-Type': 'application/json' },
   method: 'POST',
   body: JSON.stringify({
@@ -37,38 +36,40 @@ const fetchWithFaBody = (url, user) => fetch(url, {
   })
 }).then(r => r.json())
 // get user for feasibility assessment data 
-function useFaAssessor(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
+function useRaAssessor(token, user){
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforriskassessor/${token}`, user] : null, fetchWithRaBody)
   return {
-    fa: data,
-    isFaLoading: !error && !data,
-    isFaError: error,
-    boundFaMutate: mutate
+    ra: data,
+    isRaLoading: !error && !data,
+    isRaError: error,
+    boundRaMutate: mutate
   }
 }
 
-const FeasibilityPage = () => {
+const RiskAssessmentPage = () => {
   // get token
   const token = cookies.get('token')
   const { user, isLoading, isError } = useUser(token);
-  const { fa, isFaLoading, isFaError, boundFaMutate } = useFaAssessor(token, user)
+  const { ra, isRaLoading, isRaError, boundRaMutate } = useRaAssessor(token, user)
 
   if(isError) return <div>failed to load. {isError} <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
 
+  console.log(ra)
+
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div>
         <Typography>
-          <Title level={4}>Feasibility</Title>
+          <Title level={4}>Risk Assessment</Title>
         </Typography>
       </div>
       <div>
-        <FeasibilityTable fa={fa} user={user} boundFaMutate={boundFaMutate} />
+        <RiskAssessmentTable ra={ra} user={user} boundRaMutate={boundRaMutate} />
       </div>
     </Layout>
   )
 }
 
-export default FeasibilityPage
+export default RiskAssessmentPage

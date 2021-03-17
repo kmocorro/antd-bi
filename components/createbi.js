@@ -81,7 +81,7 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
         </Form.Item>
         <Form.Item
           name="benefactor"
-          label="Benefactor"
+          label="Beneficiary"
           rules={[
             {
               required: true,
@@ -127,7 +127,7 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
             },
           ]}
         >
-          <Upload name="logo" listType="picture" maxCount={1}>
+          <Upload name="logo" listType="picture" maxCount={1} accept={'image/*'}>
             <Button icon={<UploadOutlined />}>Click to upload</Button>
           </Upload>
         </Form.Item>

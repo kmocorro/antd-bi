@@ -349,7 +349,7 @@ const SummaryPage = () => {
     <Layout name={'Public'}>
       <div>
         <Typography>
-          <Title>Summary</Title>
+          <Title level={4}>Summary</Title>
         </Typography>
         <Cascader options={options} onChange={onChange} placeholder="Year / From / To / Group" style={{width: '30%', marginBottom: 24}} />
         {

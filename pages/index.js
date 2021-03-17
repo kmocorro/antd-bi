@@ -4,7 +4,7 @@ import Link from 'next/link'
 import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
-import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton  } from 'antd'
+import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty  } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import CreateBrightIdeaForm from '../components/createbi'
 import Cookies from 'universal-cookie'
@@ -34,7 +34,7 @@ function useUser(token){
       isError: 'No token'
     }
   }
-  const { data, error } = useSWR(`http://10.3.10.209:4546/getuserprofile/${token}`, fetcher)
+  const { data, error } = useSWR(`http://10.3.10.209:4541/getuserprofile/${token}`, fetcher)
   
   return {
     user: data,
@@ -52,12 +52,31 @@ const fetchWithPostBody = (url, user) => fetch(url, {
   })
 }).then(r => r.json())
 function usePost(token, user) {
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4546/showbrightideacreatedbyuser/${token}`, user] : null, fetchWithPostBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideacreatedbyuser/${token}`, user] : null, fetchWithPostBody)
   return {
     post: data,
     isPostLoading: !error && !data,
     isPostError: error,
     boundPostMutate: mutate
+  }
+}
+
+
+const fetchWithFaBody = (url, user) => fetch(url, {
+  headers: { 'Content-Type': 'application/json' },
+  method: 'POST',
+  body: JSON.stringify({
+    employee_number: user.employee_number
+  })
+}).then(r => r.json())
+// get user for feasibility assessment data 
+function useFaAssessor(token, user){
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
+  return {
+    fa: data,
+    isFaLoading: !error && !data,
+    isFaError: error,
+    boundMutate: mutate
   }
 }
 
@@ -74,8 +93,8 @@ const fetchWithAllPost = (url) => fetch(url, {
   })
 }).then(r => r.json())
 function usePostAll(){
-  const { data, error, mutate } = useSWR(`http://10.3.10.209:4547/search`, fetchWithAllPost)
-  console.log(data)
+  const { data, error, mutate } = useSWR(`http://10.3.10.209:4541/search`, fetchWithAllPost)
+  //console.log(data)
   return {
     postAll: data,
     isPostAllLoading: !error && !data,
@@ -88,7 +107,8 @@ const Index = () => {
 
   const token = cookies.get('token')
   const [ onCreateResponse, setOnCreateResponse ] = useState('')
-  const { user, isLoading, isError } = useUser(token);
+  const { user, isLoading, isError } = useUser(token)
+  const { fa, isFaLoading, isFaError, boundMutate } = useFaAssessor(token, user)
   const { post, isPostLoading, isPostError, boundPostMutate } = usePost(token, user)
   const { postAll, isPostAllLoading, isPostAllError, boundPostAllMutate } = usePostAll()
   const [visible, setVisible] = useState(false);
@@ -125,7 +145,7 @@ const Index = () => {
       before_imageArray: image2upload
     })
     
-    let response = await fetch('http://10.3.10.209:4546/submit', {
+    let response = await fetch('http://10.3.10.209:4541/submit', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: body_fields
@@ -140,10 +160,14 @@ const Index = () => {
   if(isError) return <div>failed to load. {isError} <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
+  //console.log(post)
+  //console.log(user)
+  console.log(post)
 
   return (
-    <Layout name={user.name}>
-      <div style={{marginBottom: 28}}>
+    <Layout name={user.name} employee_number={user.employee_number}>
+      <div style={{marginBottom: 16}}>
+        <Card>
         <Typography>
           <Title>Hi.</Title>
         </Typography>
@@ -160,6 +184,7 @@ const Index = () => {
           What's your Bright Idea?
         </Button>
         </Tooltip>
+        </Card>
         <CreateBrightIdeaForm
           visible={visible}
           onCreate={onCreate}
@@ -169,23 +194,27 @@ const Index = () => {
           }}
         />
       </div>
-      <div style={{marginTop: 40}}>
-        <Typography>
-          <Title level={3}>Everybody's Ideas</Title>
-        </Typography>
+      <div style={{marginTop: 20}}>
         {
-          postAll ? (
-            postAll.length > 0 ? (
+          post ? (
+            post.length > 0 ? (
+          <Card
+            title={
+              <Typography>
+                <Title level={4}>Recent Ideas</Title>
+              </Typography>
+            }
+          >
           <List
             itemLayout="vertical"
             size="large"
             pagination={{
               onChange: page => {
-                console.log(page);
+               // console.log(page);
               },
               pageSize: 5,
             }}
-            dataSource={postAll}
+            dataSource={post}
             footer={''
             }
             renderItem={item => (
@@ -194,39 +223,48 @@ const Index = () => {
                 actions={[
                   <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">See more</a>,
                 ]}
-                /*
                 extra={
-                  <img
+                  <Image
                     width={272}
-                    alt="logo"
-                    src={`http://10.3.10.209:4546/images/${item.before_image}`}
+                    src={`http://10.3.10.209:4541/images/${item.before_image}`}
                   />
                 }
-                */
               >
                 <List.Item.Meta
                   avatar={
                     <Avatar 
-                      style={{
-                        color: '#f56a00',
-                        backgroundColor: '#fde3cf',
-                      }} 
-                    >
-                      {item.creator.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')}
-                    </Avatar>
+                      src={`http://10.3.10.209:4000/codecs-img/${user.employee_number}.png`}
+                    />
                   }
-                  title={<a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">{`${item.title} by `}<u>{`${item.creator}`}</u></a>}
-                  description={`${new Date(item.submission_date)}`}
+                  title={
+                    <>
+                    <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">
+                      {`${item.title}`}
+                      
+                    </a>{` `}
+                    {item.current === 'rejected' ? <Tag color="red" style={{marginLeft: 12}}>{item.current}</Tag> : <Tag color="green"  style={{marginLeft: 12}}>{item.current}</Tag>}
+                    </>
+                  }
+                  description={`${new Date(item.status_date)}`}
                 />
                 {item.proposal}
               </List.Item>
             )}
           />
+          </Card>
           ):(
-            <div>It seems that there's no Bright Idea yet.</div>
+            <Empty/>
           )
           ):(
+            <Card
+              title={
+                <Typography>
+                  <Title level={4}>Recent Ideas</Title>
+                </Typography>
+              }
+            >
             <div><Skeleton avatar paragraph={{ rows: 4 }} /></div>
+            </Card>
           )
         }
       </div>

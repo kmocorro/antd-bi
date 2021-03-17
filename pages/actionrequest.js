@@ -6,9 +6,8 @@ const { Title } = Typography
 import useSWR from 'swr'
 import FrontLoading from '../components/frontLoading'
 import Cookies from 'universal-cookie'
-import FeasibilityTable from '../components/feasbilitytable'
+import ActionRequestTable from '../components/actionrequesttable'
 const cookies = new Cookies()
-
 
 // get user data
 const fetcher = url => fetch(url).then(r => r.json())
@@ -29,7 +28,7 @@ function useUser(token){
   }
 }
 
-const fetchWithFaBody = (url, user) => fetch(url, {
+const fetchWithArBody = (url, user) => fetch(url, {
   headers: { 'Content-Type': 'application/json' },
   method: 'POST',
   body: JSON.stringify({
@@ -37,38 +36,40 @@ const fetchWithFaBody = (url, user) => fetch(url, {
   })
 }).then(r => r.json())
 // get user for feasibility assessment data 
-function useFaAssessor(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
+function useActionRequest(token, user){
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforactionowner/${token}`, user] : null, fetchWithArBody)
   return {
-    fa: data,
-    isFaLoading: !error && !data,
-    isFaError: error,
-    boundFaMutate: mutate
+    ar: data,
+    isArLoading: !error && !data,
+    isArError: error,
+    boundArMutate: mutate
   }
 }
 
-const FeasibilityPage = () => {
+const ActionRequestPage = () => {
   // get token
   const token = cookies.get('token')
   const { user, isLoading, isError } = useUser(token);
-  const { fa, isFaLoading, isFaError, boundFaMutate } = useFaAssessor(token, user)
+  const { ar, isArLoading, isArError, boundArMutate } = useActionRequest(token, user)
 
   if(isError) return <div>failed to load. {isError} <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
 
+  console.log(ar)
+
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div>
         <Typography>
-          <Title level={4}>Feasibility</Title>
+          <Title level={4}>Action Request</Title>
         </Typography>
       </div>
       <div>
-        <FeasibilityTable fa={fa} user={user} boundFaMutate={boundFaMutate} />
+        <ActionRequestTable ar={ar} user={user} boundArMutate={boundArMutate} />
       </div>
     </Layout>
   )
 }
 
-export default FeasibilityPage
+export default ActionRequestPage

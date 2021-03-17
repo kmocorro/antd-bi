@@ -1,5 +1,5 @@
-import { Layout, Menu, Button, Typography, Avatar } from 'antd'
-import { AuditOutlined, HomeOutlined, ExceptionOutlined, CrownOutlined, DatabaseOutlined, SearchOutlined, LogoutOutlined, GlobalOutlined, BulbTwoTone } from '@ant-design/icons'
+import { Layout, Menu, Button, Typography, Avatar, BackTop } from 'antd'
+import { AuditOutlined, HomeOutlined, ExceptionOutlined, InteractionOutlined, FileSearchOutlined, SearchOutlined, LogoutOutlined, GlobalOutlined, BulbTwoTone } from '@ant-design/icons'
 import Cookies from 'universal-cookie'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -10,7 +10,7 @@ const { Header, Content, Footer, Sider } = Layout
 
 const LayoutComponent = (props) => {
   const router = useRouter()
-  console.log(router.pathname)
+  //console.log(router.pathname)
 
   const [ selectedKey, setSelectedKey ] = useState(
     router.pathname === '/' ? '1'
@@ -30,29 +30,44 @@ const LayoutComponent = (props) => {
     router.push('/feasibility')
     setSelectedKey('2')
   }
+  const onRisk = () => {
+    router.push('/riskassessment')
+    setSelectedKey('3')
+  }
+  const onActionRequest = () => {
+    router.push('/actionrequest')
+    setSelectedKey('4')
+  }
+  const onImplementation = () => {
+    router.push('/implementation')
+    setSelectedKey('5')
+  }
+  const onSummary = () => {
+    router.push('/summary')
+    setSelectedKey('6')
+  }
 
   const onLogout = () => {
     cookies.remove()
     router.push('/login')
   }
 
-  const onSummary = () => {
-    router.push('/summary')
-    setSelectedKey('5')
-  }
 
   return (
     <div>
+    <BackTop  />
     <Layout>
       <Sider
-        theme="light"
+        /*
+        theme="dark"
         style={{
           overflow: 'auto',
           height: '100vh',
           position: 'fixed',
           left: 0,
         }}
-        /*
+        */
+        theme="dark"
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={broken => {
@@ -61,27 +76,29 @@ const LayoutComponent = (props) => {
         onCollapse={(collapsed, type) => {
           console.log(collapsed, type);
         }}
-        */
       >
         <div className="logo" onClick={onHome}>
           <Typography>
-            <Title level={4} strong style={{color: '#333'}}>Project Br<BulbTwoTone twoToneColor="#f9d71c" />ght</Title>
+            <Title level={4} strong style={{color: '#ffffffd9'}}>Project Br<BulbTwoTone twoToneColor="#f9d71c" />ght</Title>
           </Typography>
         </div>
-        <Menu theme="light" mode="inline" defaultSelectedKeys={[selectedKey]}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={[selectedKey]}>
           <Menu.Item key="1" onClick={onHome} icon={<HomeOutlined />}>
             Home
           </Menu.Item>
           <Menu.Item key="2" onClick={onFeasibility} icon={<AuditOutlined/>} >
-            Feasibility
+            For Feasibility
           </Menu.Item>
-          <Menu.Item key="3" icon={<ExceptionOutlined />} >
-            Risk           
+          <Menu.Item key="3" onClick={onRisk} icon={<ExceptionOutlined />} >
+            For Risk Assessment        
           </Menu.Item>
-          <Menu.Item key="4" icon={<CrownOutlined />}>
-            Action
+          <Menu.Item key="4" onClick={onActionRequest} icon={<InteractionOutlined />}>
+            Action Request
           </Menu.Item>
-          <Menu.Item key="5" onClick={onSummary} icon={<DatabaseOutlined />}>
+          <Menu.Item key="5" onClick={onImplementation} icon={<InteractionOutlined />}>
+            Implementation
+          </Menu.Item>
+          <Menu.Item key="6" onClick={onSummary} icon={<FileSearchOutlined />}>
             Summary
           </Menu.Item>
           {/*
@@ -91,8 +108,8 @@ const LayoutComponent = (props) => {
           */}
         </Menu>
       </Sider>
-      <Layout style={{ background: '#fff', marginLeft: 200}}>
-        <Header className="site-layout-sub-header-background" style={{ padding: 0, backgroundColor: '#fff'}} >
+      <Layout>
+        <Header className="site-layout-sub-header-background" style={{ padding: 0, background: '#ffff' }} >
           <div style={{display: '-webkit-inline-box', float: 'right', marginRight: 20}}>
             {
               props.name === 'Public' ? (
@@ -101,6 +118,13 @@ const LayoutComponent = (props) => {
                 </div>
               ):(
               <>
+              
+                <Avatar 
+                  src={`http://10.3.10.209:4000/codecs-img/${props.employee_number}.png`}
+                  size="small"
+                  style={{marginRight: 8}}
+                />
+                {/*
                 <Avatar 
                   size="small"
                   style={{
@@ -111,6 +135,7 @@ const LayoutComponent = (props) => {
                 >
                 {props.name.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')}
                 </Avatar>
+                */}
                 <p>{props.name}</p>
                 <Button icon={<LogoutOutlined />} type="link"  onClick={onLogout} >Logout</Button>
               </>
@@ -123,7 +148,7 @@ const LayoutComponent = (props) => {
             {props.children}
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Project Bright by m@s Team</Footer>
+        <Footer style={{ textAlign: 'center' }}>Project Br<BulbTwoTone twoToneColor="#f9d71c" />ght by m@s Team</Footer>
       </Layout>
     </Layout>
     <style jsx>{`
@@ -131,13 +156,6 @@ const LayoutComponent = (props) => {
         height: 32px;
         margin: 16px;
         cursor: pointer;
-      }
-      .site-layout-sub-header-background {
-        background: #fff;
-      }
-      
-      .site-layout-background {
-        background: #fff;
       }
     `}</style>
     </div>
