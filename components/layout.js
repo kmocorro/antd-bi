@@ -144,8 +144,8 @@ const LayoutComponent = (props) => {
             }
           </div>
         </Header>
-        <Content style={{ margin: '0 16px 0' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 650 }}>
+        <Content style={{ margin: '0 0 0' }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 650, backgroundColor: '#fff' }}>
             {props.children}
           </div>
         </Content>

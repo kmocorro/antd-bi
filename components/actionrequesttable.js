@@ -8,7 +8,7 @@ import RejectAR from './rejectar'
 
 const { Text } = Typography
 
-const ActionRequestTable = ({ar, boundArMutate, user}) => {
+const ActionRequestTable = ({ar, implementation, boundArMutate, boundImplementationMutate, user}) => {
 
   // record means data of the selected row of the table.
   const [ approveARRecord, setApproveARRecord ] = useState({})
@@ -175,6 +175,7 @@ const ActionRequestTable = ({ar, boundArMutate, user}) => {
         message.success('Successfully acknowledged action request')
         setLoadingApprove(false)
         boundArMutate(ar, true)
+        boundImplementationMutate(implementation, true)
  
       } else {
  

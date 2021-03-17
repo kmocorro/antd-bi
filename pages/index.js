@@ -5,8 +5,8 @@ import NextImage from 'next/image'
 import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
-import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col } from 'antd'
-import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined } from '@ant-design/icons'
+import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col, Tabs, Badge, Spin, PageHeader } from 'antd'
+import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined, LikeOutlined, DislikeOutlined, ExperimentOutlined, SoundOutlined, CheckCircleOutlined, SafetyCertificateOutlined, LinkOutlined, ExceptionOutlined, BulbOutlined } from '@ant-design/icons'
 import CreateBrightIdeaForm from '../components/createbi'
 import Cookies from 'universal-cookie'
 const { Title } = Typography
@@ -14,7 +14,17 @@ const cookies = new Cookies()
 import { EyeOutlined } from '@ant-design/icons';
 import FrontLoading from '../components/frontLoading'
 import FrontLandingPage from '../components/frontLandingpage'
+import FeasibilityTable from '../components/feasbilitytable'
+import RiskAssessmentTable from '../components/riskassessmenttable'
+import ActionRequestTable from '../components/actionrequesttable'
+import ImplementationTable from '../components/implementationtable'
 import moment from 'moment'
+
+const { TabPane } = Tabs;
+
+function callback(key) {
+  console.log(key);
+}
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -74,12 +84,70 @@ const fetchWithFaBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useFaAssessor(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
+  const { data, error, isValidating, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
   return {
     fa: data,
     isFaLoading: !error && !data,
     isFaError: error,
-    boundMutate: mutate
+    isFaValidating: isValidating,
+    boundFaMutate: mutate
+  }
+}
+
+
+const fetchWithRaBody = (url, user) => fetch(url, {
+  headers: { 'Content-Type': 'application/json' },
+  method: 'POST',
+  body: JSON.stringify({
+    employee_number: user.employee_number
+  })
+}).then(r => r.json())
+// get user for feasibility assessment data 
+function useRaAssessor(token, user){
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforriskassessor/${token}`, user] : null, fetchWithRaBody)
+  return {
+    ra: data,
+    isRaLoading: !error && !data,
+    isRaError: error,
+    boundRaMutate: mutate
+  }
+}
+
+
+const fetchWithArBody = (url, user) => fetch(url, {
+  headers: { 'Content-Type': 'application/json' },
+  method: 'POST',
+  body: JSON.stringify({
+    employee_number: user.employee_number
+  })
+}).then(r => r.json())
+// get user for feasibility assessment data 
+function useActionRequest(token, user){
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforactionowner/${token}`, user] : null, fetchWithArBody)
+  return {
+    ar: data,
+    isArLoading: !error && !data,
+    isArError: error,
+    boundArMutate: mutate
+  }
+}
+
+
+const fetchWithImpBody = (url, user) => fetch(url, {
+  headers: { 'Content-Type': 'application/json' },
+  method: 'POST',
+  body: JSON.stringify({
+    employee_number: user.employee_number
+  })
+}).then(r => r.json())
+// get user for feasibility assessment data 
+function useImplementation(token, user){
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforimplementation/${token}`, user] : null, fetchWithImpBody)
+  return {
+    implementation: data,
+    isImplementationLoading: !error && !data,
+    isImplementationError: error,
+    boundImplementationMutate: mutate
   }
 }
 
@@ -111,7 +179,10 @@ const Index = () => {
   const token = cookies.get('token')
   const [ onCreateResponse, setOnCreateResponse ] = useState('')
   const { user, isLoading, isError } = useUser(token)
-  const { fa, isFaLoading, isFaError, boundMutate } = useFaAssessor(token, user)
+  const { fa, isFaLoading, isFaError, isFaValidating, boundFaMutate } = useFaAssessor(token, user)
+  const { ra, isRaLoading, isRaError, boundRaMutate } = useRaAssessor(token, user)
+  const { ar, isArLoading, isArError, boundArMutate } = useActionRequest(token, user)
+  const { implementation, isImplementationLoading, isImplementationError, boundImplementationMutate } = useImplementation(token, user)
   const { post, isPostLoading, isPostError, boundPostMutate } = usePost(token, user)
   const { postAll, isPostAllLoading, isPostAllError, boundPostAllMutate } = usePostAll()
   const [visible, setVisible] = useState(false)
@@ -156,15 +227,35 @@ const Index = () => {
     
     if(response.status === 200){
       setOnCreateResponse(await response.json())
+      boundFaMutate(fa, true)
     }
 
   };
+
+  const [ submitted, setSubmitted ] = useState([])
+  const [ approved, setApproved ] = useState([])
+  const [ acknowledged, setAcknowledged ] = useState([])
+  const [ implemented, setImplemented ] = useState([])
+  const [ rejected, setRejected ] = useState([])
   
   if(isError) return <div><FrontLandingPage/></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
   //console.log(post)
   //console.log(user)
+
+  useEffect(() => {
+    if(post){
+      if(post.length > 0 ){
+        setSubmitted(post.filter(data => data.current === 'submitted'))
+        setApproved(post.filter(data => data.current === 'approved'))
+        setAcknowledged(post.filter(data => data.current === 'acknowledged'))
+        setImplemented(post.filter(data => data.current === 'implemented'))
+        setRejected(post.filter(data => data.current === 'rejected'))
+      }
+    }
+  }, [ post ])
+
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div style={{marginBottom: 16}}>
@@ -208,74 +299,147 @@ const Index = () => {
           }}
         />
       </div>
-      <div style={{marginTop: 20}}>
-        {
-          post ? (
-            post.length > 0 ? (
-          <Card>
-          <Title level={4}>Recent Ideas</Title>
-          <List
-            itemLayout="vertical"
-            pagination={{
-              onChange: page => {
-               // console.log(page);
-              },
-              pageSize: 5,
-            }}
-            dataSource={post}
-            footer={''
-            }
-            renderItem={item => (
-              <List.Item
-                key={item.uuid}
-                actions={[
-                  <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">See more</a>,
-                ]}
-                extra={
-                  <Image
-                    width={272}
-                    src={`http://10.3.10.209:4541/images/${item.before_image}`}
-                  />
-                }
-              >
-                <List.Item.Meta
-                  avatar={
-                    <Avatar 
-                      src={`http://10.3.10.209:4000/codecs-img/${user.employee_number}.png`}
-                    />
-                  }
-                  title={
-                    <>
-                    <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">
-                      {`${item.title}`}
-                      
-                    </a>{` `}
-                    {item.current === 'rejected' ? <Tag color="red" style={{marginLeft: 12}}>{item.current}</Tag> : <Tag color="green"  style={{marginLeft: 12}}>{item.current}</Tag>}
-                    </>
-                  }
-                  description={`${moment(item.status_date).format('llll')}`}
+      <Tabs defaultActiveKey="1" onChange={callback}>
+        <TabPane tab="Recent ideas" key="1">
+          <PageHeader style={{paddingTop: 0}}>
+            <Row gutter={[16, 16]}>
+              <Col span={4}>
+                <Statistic 
+                  title={<>Total BI <Tooltip title="Number of bright ideas that you have submitted" placement="right">
+                  <QuestionCircleOutlined /></Tooltip></>} 
+                  value={post ? post.length > 0 ? post.length : 0 : 0}
+                  prefix={<BulbOutlined />}
                 />
-                {item.proposal}
-              </List.Item>
-            )}
-          />
-          </Card>
-          ):(
-            <Empty/>
-          )
-          ):(
-            <Card
-              title={
-                <Typography>
-                  <Title level={4}>Recent Ideas</Title>
-                </Typography>
-              }
-            >
-            <div><Skeleton avatar paragraph={{ rows: 4 }} /></div>
-            </Card>
-          )
-        }
-      </div>
+              </Col>
+              <Col span={4}>
+                <Statistic 
+                  title={<>Submitted <Tooltip title="Number of bright ideas for feasibility and risk assessment" placement="right">
+                  <QuestionCircleOutlined /></Tooltip></>} 
+                  value={submitted ? submitted.length > 0 ? submitted.length : 0 : 0}
+                  prefix={<ExperimentOutlined />}
+                />
+              </Col>
+              <Col span={4}>
+                <Statistic 
+                  title={<>Approved <Tooltip title="Number of bright ideas for action request" placement="right">
+                  <QuestionCircleOutlined /></Tooltip></>} 
+                  value={approved ? approved.length > 0 ? approved.length : 0 : 0}
+                  prefix={<LikeOutlined />}
+                />
+              </Col>
+              <Col span={4}>
+                <Statistic 
+                  title={<>Acknowledged <Tooltip title="Number of bright ideas for implementation" placement="right">
+                  <QuestionCircleOutlined /></Tooltip></>} 
+                  value={acknowledged ? acknowledged.length > 0 ? acknowledged.length : 0 : 0}
+                  prefix={<LinkOutlined />}
+                />
+              </Col>
+              <Col span={4}>
+                <Statistic 
+                  title={<>Implemented <Tooltip title="Number of bright ideas that has been implemented" placement="right">
+                  <QuestionCircleOutlined /></Tooltip></>} 
+                  value={implemented ? implemented.length > 0 ? implemented.length : 0 : 0}
+                  prefix={<SafetyCertificateOutlined />}
+                />
+              </Col>
+              <Col span={4}>
+                <Statistic 
+                  title={<>Rejected <Tooltip title="Number of bright ideas that has been rejected" placement="right">
+                  <QuestionCircleOutlined /></Tooltip></>} 
+                  value={rejected ? rejected.length > 0 ? rejected.length : 0 : 0}
+                  prefix={<ExceptionOutlined />}
+                />
+              </Col>
+            </Row>
+          </PageHeader>
+          <div>
+            {
+              post ? (
+                post.length > 0 ? (
+              <div>
+              <List
+                itemLayout="vertical"
+                pagination={{
+                  onChange: page => {
+                  // console.log(page);
+                  },
+                  pageSize: 5,
+                }}
+                dataSource={post}
+                footer={''
+                }
+                renderItem={item => (
+                  <List.Item
+                    key={item.uuid}
+                    actions={[
+                      <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">See more</a>,
+                    ]}
+                    extra={
+                      <Image
+                        width={272}
+                        src={`http://10.3.10.209:4541/images/${item.before_image}`}
+                      />
+                    }
+                  >
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar 
+                          src={`http://10.3.10.209:4000/codecs-img/${user.employee_number}.png`}
+                        />
+                      }
+                      title={
+                        <>
+                        <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">
+                          {`${item.title}`}
+                          
+                        </a>{` `}
+                        {item.current === 'rejected' ? <Tag color="red" style={{marginLeft: 12}}>{item.current}</Tag> : <Tag color="green"  style={{marginLeft: 12}}>{item.current}</Tag>}
+                        </>
+                      }
+                      description={`${moment(item.status_date).format('llll')}`}
+                    />
+                    {item.proposal}
+                  </List.Item>
+                )}
+              />
+              </div>
+              ):(
+                <Empty/>
+              )
+              ):(
+                <div>
+                  <div><Skeleton avatar paragraph={{ rows: 4 }} /></div>
+                </div>
+              )
+            }
+          </div>
+        </TabPane>
+        <TabPane tab={<><Badge count={fa ? fa.length ? fa.length : 0 : 0} offset={[10, 0]}>Feasibility assessment</Badge></>} key="2">
+          {
+            isFaValidating ? <Spin /> 
+            :
+            <div>
+              <FeasibilityTable fa={fa} user={user} boundFaMutate={boundFaMutate} ra={ra} boundRaMutate={boundRaMutate} ar={ar} boundArMutate={boundArMutate} />
+            </div>
+          }
+        </TabPane>
+        <TabPane tab={<><Badge count={ra ? ra.length ? ra.length : 0 : 0} offset={[10, 0]}>Risk assessment</Badge></>} key="3">
+          <div>
+            <RiskAssessmentTable ra={ra} user={user} boundRaMutate={boundRaMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  />
+          </div>
+        </TabPane>
+        <TabPane tab={<><Badge count={ar ? ar.length ? ar.length : 0 : 0} offset={[10, 0]}>Action Request</Badge></>} key="4">
+          <div>
+            <ActionRequestTable ar={ar} user={user} boundArMutate={boundArMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  />
+          </div>
+        </TabPane>
+        <TabPane tab={<><Badge count={implementation ? implementation.length ? implementation.length : 0 : 0} offset={[10, 0]}>Implementation</Badge></>} key="5">
+          <div>
+            <ImplementationTable implementation={implementation} user={user} boundImplementationMutate={boundImplementationMutate} />
+          </div>
+        </TabPane>
+      </Tabs>
     </Layout>
   )
 }

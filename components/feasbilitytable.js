@@ -7,7 +7,7 @@ import ForRiskAssessment from './forriskassessment';
 
 const { Text } = Typography
 
-const FeasibilityTable = ({fa, boundFaMutate, user}) => {
+const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMutate, user}) => {
 
   const [ approveFaRecord, setApproveFARecord ] = useState({})
 
@@ -222,6 +222,7 @@ const FeasibilityTable = ({fa, boundFaMutate, user}) => {
         setLoadingApprove(false)
         message.success('Successfully approved without risk assessment')
         boundFaMutate(fa, true)
+        boundArMutate(ar, true)
 
       } else {
         
@@ -375,6 +376,7 @@ const FeasibilityTable = ({fa, boundFaMutate, user}) => {
         setLoadingApprove(false)
         message.success('Successful transer for risk assessment')
         boundFaMutate(fa, true)
+        boundRaMutate(ra, true)
 
       } else {
         
