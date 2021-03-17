@@ -12,6 +12,7 @@ const { Title } = Typography
 const cookies = new Cookies()
 import { EyeOutlined } from '@ant-design/icons';
 import FrontLoading from '../components/frontLoading'
+import FrontLandingPage from '../components/frontLandingpage'
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -157,7 +158,7 @@ const Index = () => {
 
   };
   
-  if(isError) return <div>failed to load. {isError} <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
+  if(isError) return <div><FrontLandingPage/></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
   //console.log(post)
