@@ -4,8 +4,8 @@ import Link from 'next/link'
 import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
-import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty  } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col } from 'antd'
+import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined } from '@ant-design/icons'
 import CreateBrightIdeaForm from '../components/createbi'
 import Cookies from 'universal-cookie'
 const { Title } = Typography
@@ -13,6 +13,7 @@ const cookies = new Cookies()
 import { EyeOutlined } from '@ant-design/icons';
 import FrontLoading from '../components/frontLoading'
 import FrontLandingPage from '../components/frontLandingpage'
+import moment from 'moment'
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -112,7 +113,7 @@ const Index = () => {
   const { fa, isFaLoading, isFaError, boundMutate } = useFaAssessor(token, user)
   const { post, isPostLoading, isPostError, boundPostMutate } = usePost(token, user)
   const { postAll, isPostAllLoading, isPostAllError, boundPostAllMutate } = usePostAll()
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
 
   if(onCreateResponse === 'success'){
     message.success('Bright idea successfully created!');
@@ -162,26 +163,29 @@ const Index = () => {
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
   //console.log(post)
-  console.log(user)
-  //console.log(post)
+  //console.log(user)
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div style={{marginBottom: 16}}>
         <Card>
         <Typography>
-          <Title level={2}>👋 Hi {user.name}!</Title>
+          <Title level={3}>Hi {user.name}! 👋</Title>
         </Typography>
+        <Row gutter={[16, 24]}>
+          <Col span={4}>
+            <Statistic title={<>Score <Tooltip title="Overall score of your implemented Bright Ideas" placement="right"><QuestionCircleOutlined /></Tooltip></>} value={0} suffix={<StarTwoTone twoToneColor="#FFD700" />} />
+          </Col>
+        </Row>
         <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
         <Button 
           type="primary" 
           icon={<PlusOutlined />} 
-          size="large" 
           onClick={() => {
             setOnCreateResponse('')
             setVisible(true);
           }}
         >
-          What's your Bright Idea?
+          Submit a Bright Idea
         </Button>
         </Tooltip>
         </Card>
@@ -198,16 +202,10 @@ const Index = () => {
         {
           post ? (
             post.length > 0 ? (
-          <Card
-            title={
-              <Typography>
-                <Title level={4}>Recent Ideas</Title>
-              </Typography>
-            }
-          >
+          <Card>
+          <Title level={4}>Recent Ideas</Title>
           <List
             itemLayout="vertical"
-            size="large"
             pagination={{
               onChange: page => {
                // console.log(page);
@@ -245,7 +243,7 @@ const Index = () => {
                     {item.current === 'rejected' ? <Tag color="red" style={{marginLeft: 12}}>{item.current}</Tag> : <Tag color="green"  style={{marginLeft: 12}}>{item.current}</Tag>}
                     </>
                   }
-                  description={`${new Date(item.status_date)}`}
+                  description={`${moment(item.status_date).format('llll')}`}
                 />
                 {item.proposal}
               </List.Item>
