@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form, Input, Radio, DatePicker, AutoComplete, Select } from 'antd'
 import { initialImpact_list } from '../public/itemlist'
+import moment from 'moment'
 const { Option } = Select
 
 const ApproveFA = ({ visible, onCreate, onCancel, options, setAction_owner }) => {
@@ -21,6 +22,11 @@ const ApproveFA = ({ visible, onCreate, onCancel, options, setAction_owner }) =>
     )
   )
 
+  
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().subtract(1, 'day').endOf('day');
+  }
 
   return (
     <Modal
@@ -75,7 +81,7 @@ const ApproveFA = ({ visible, onCreate, onCancel, options, setAction_owner }) =>
             },
           ]}
         >
-          <DatePicker onChange={onChange} />
+          <DatePicker onChange={onChange} disabledDate={disabledDate} />
         </Form.Item>
         <Form.Item
           name="action_owner" 

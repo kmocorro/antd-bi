@@ -15,18 +15,20 @@ const LayoutComponent = (props) => {
 
   const [ selectedKey, setSelectedKey ] = useState(
     router.pathname === '/' ? '1'
+    /*
     : router.pathname === '/feasibility' ? '2'
     : router.pathname === '/riskassessment' ? '3'  
     : router.pathname === '/actionrequest' ? '4' 
     : router.pathname === '/implementation' ? '5' 
-    : router.pathname === '/summary' ? '6' 
+    */
+    : router.pathname === '/summary' ? '2' 
     : ''
   )
 
   const onHome = () => {
     router.push('/')
     setSelectedKey('1')
-  }
+  }/*
   const onFeasibility = () => {
     router.push('/feasibility')
     setSelectedKey('2')
@@ -43,9 +45,10 @@ const LayoutComponent = (props) => {
     router.push('/implementation')
     setSelectedKey('5')
   }
+  */
   const onSummary = () => {
     router.push('/summary')
-    setSelectedKey('6')
+    setSelectedKey('2')
   }
 
   const onLogout = () => {
@@ -87,19 +90,7 @@ const LayoutComponent = (props) => {
           <Menu.Item key="1" onClick={onHome} icon={<HomeOutlined />}>
             Home
           </Menu.Item>
-          <Menu.Item key="2" onClick={onFeasibility} icon={<ApartmentOutlined />} >
-            For Feasibility
-          </Menu.Item>
-          <Menu.Item key="3" onClick={onRisk} icon={<ExperimentOutlined />} >
-            For Risk Assessment        
-          </Menu.Item>
-          <Menu.Item key="4" onClick={onActionRequest} icon={<NotificationOutlined />}>
-            Action Request
-          </Menu.Item>
-          <Menu.Item key="5" onClick={onImplementation} icon={<LikeOutlined />}>
-            Implementation
-          </Menu.Item>
-          <Menu.Item key="6" onClick={onSummary} icon={<FileSearchOutlined />}>
+          <Menu.Item key="2" onClick={onSummary} icon={<FileSearchOutlined />}>
             Summary
           </Menu.Item>
           {/*
