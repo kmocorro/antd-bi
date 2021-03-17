@@ -168,7 +168,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
  
       if(await response.json() === 'success'){
        
-        message.success('Successfully acknowledged action request')
+        message.success('Bright idea successfully implemented')
         setLoadingApproveImplementation(false)
         boundImplementationMutate(implementation, true)
  
