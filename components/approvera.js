@@ -11,6 +11,11 @@ const ApproveRA = ({ visible, onCreate, onCancel }) => {
     console.log(date, dateString);
   }
 
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().subtract(1, 'day').endOf('day');
+  }
+
   return (
     <Modal
       visible={visible}
@@ -115,7 +120,7 @@ const ApproveRA = ({ visible, onCreate, onCancel }) => {
             },
           ]}
         >
-          <DatePicker onChange={onChange} />
+          <DatePicker onChange={onChange} disabledDate={disabledDate} />
         </Form.Item>
         <Form.Item
           name="comment"

@@ -9,7 +9,7 @@ import RejectRA from '../components/rejectra'
 
 const { Text } = Typography
 
-const RiskAssessmentTable = ({ra, implementation,  boundRaMutate, boundImplementationMutate, user}) => {
+const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImplementationMutate, boundPostMutate, user}) => {
 
   // record means data of the selected row of the table.
   const [ approveRARecord, setApproveRARecord ] = useState({})
@@ -181,6 +181,7 @@ const RiskAssessmentTable = ({ra, implementation,  boundRaMutate, boundImplement
         message.success('Risk assessment completed')
         boundRaMutate(ra, true)
         boundImplementationMutate(implementation, true)
+        boundPostMutate(post, true)
 
       } else {
 
@@ -238,6 +239,7 @@ const RiskAssessmentTable = ({ra, implementation,  boundRaMutate, boundImplement
         setLoadingReject(false)
         message.success('Successfully rejected risk assessment')
         boundRaMutate(ra, true)
+        boundPostMutate(post, true)
 
       } else {
 

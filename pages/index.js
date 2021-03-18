@@ -456,7 +456,7 @@ const Index = () => {
         </TabPane>
         <TabPane tab={<><Badge count={ra ? ra.length ? ra.length : 0 : 0} offset={[10, 0]}>Risk assessment</Badge></>} key="3">
           <PageHeader style={{paddingTop: 0}}>
-            <RiskAssessmentTable ra={ra} user={user} boundRaMutate={boundRaMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  />
+            <RiskAssessmentTable ra={ra} user={user} boundRaMutate={boundRaMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate} post={post}  boundPostMutate={boundPostMutate} />
           </PageHeader>
         </TabPane>
         <TabPane tab={<><Badge count={ar ? ar.length ? ar.length : 0 : 0} offset={[10, 0]}>Action Request</Badge></>} key="4">
