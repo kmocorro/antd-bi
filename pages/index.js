@@ -5,11 +5,11 @@ import NextImage from 'next/image'
 import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
-import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col, Tabs, Badge, Spin, PageHeader } from 'antd'
+import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col, Tabs, Badge, Spin, PageHeader, Divider, Steps, Descriptions   } from 'antd'
 import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined, LikeOutlined, DislikeOutlined, ExperimentOutlined, SoundOutlined, CheckCircleOutlined, SafetyCertificateOutlined, LinkOutlined, ExceptionOutlined, BulbOutlined } from '@ant-design/icons'
 import CreateBrightIdeaForm from '../components/createbi'
 import Cookies from 'universal-cookie'
-const { Title } = Typography
+const { Title, Paragraph, Text } = Typography
 const cookies = new Cookies()
 import { EyeOutlined } from '@ant-design/icons';
 import FrontLoading from '../components/frontLoading'
@@ -19,6 +19,7 @@ import RiskAssessmentTable from '../components/riskassessmenttable'
 import ActionRequestTable from '../components/actionrequesttable'
 import ImplementationTable from '../components/implementationtable'
 import moment from 'moment'
+const { Step } = Steps
 
 const { TabPane } = Tabs;
 
@@ -253,7 +254,7 @@ const Index = () => {
   if(isError) return <div><FrontLandingPage/></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
-  //console.log(post)
+  console.log(post)
   //console.log(user)
 
   return (
@@ -262,11 +263,11 @@ const Index = () => {
         <Card>
         <div style={{ display: 'flex'}}>
           <div style={{margin: 10}}>
-            <NextImage src="/doge.png" width={150} height={180} />
+            <NextImage src="/doge_square.png" width={150} height={150} />
           </div>
-          <div style={{marginTop: 40}}>
+          <div style={{marginTop: 8}}>
             <Typography>
-              <Title level={3}>Hi {user.name}! 👋</Title>
+              <Title level={3}>Hi {user.name}!</Title>
             </Typography>
             <Statistic 
               title={<>Score <Tooltip title="Overall score of your implemented Bright Ideas" placement="right">
@@ -276,7 +277,7 @@ const Index = () => {
             />
             <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
             <Button 
-              type="primary" 
+              type="dashed" 
               icon={<PlusOutlined />} 
               onClick={() => {
                 setOnCreateResponse('')
@@ -300,8 +301,8 @@ const Index = () => {
         />
       </div>
       <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Recent ideas" key="1">
-          <PageHeader style={{paddingTop: 0}}>
+        <TabPane tab="Dashboard" key="1">
+          <PageHeader>
             <Row gutter={[16, 16]}>
               <Col span={4}>
                 <Statistic 
@@ -353,6 +354,13 @@ const Index = () => {
               </Col>
             </Row>
           </PageHeader>
+          <Divider/>
+          <Typography>
+            <Title level={4}>
+              My Bright Ideas
+            </Title>
+          </Typography>
+          <PageHeader>
           <div>
             {
               post ? (
@@ -373,33 +381,42 @@ const Index = () => {
                   <List.Item
                     key={item.uuid}
                     actions={[
-                      <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">See more</a>,
+                     // <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">See more</a>,
                     ]}
-                    extra={
-                      <Image
-                        width={272}
-                        src={`http://10.3.10.209:4541/images/${item.before_image}`}
-                      />
-                    }
                   >
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar 
-                          src={`http://10.3.10.209:4000/codecs-img/${user.employee_number}.png`}
+                    <Descriptions bordered size="small">
+                      <Descriptions.Item label="BI ID" span={3}>{item.bi_id}</Descriptions.Item>
+                      <Descriptions.Item label="BI Title" span={3}>{item.title}</Descriptions.Item>
+                      <Descriptions.Item label="Submitted on" span={3}>{moment(item.status_date).format('LLLL')}</Descriptions.Item>
+                      <Descriptions.Item label="Status" span={3}>{item.current}</Descriptions.Item>
+                      <Descriptions.Item label="Timeline" span={3}>
+                        <Steps 
+                          size="small" 
+                          current={
+                            item.current === 'submitted' ? 1
+                            : item.current === 'approved' ? 2
+                            : item.current === 'acknowledged' ? 3
+                            : item.current === 'implemented' ? 4
+                            : 0
+                          }
+
+                          status={
+                            item.current === 'rejected' ? 'error' : ''
+                          }
+                        >
+                          <Step title="Submitted" />
+                          <Step title="Approved" />
+                          <Step title="Acknowledged" />
+                          <Step title="Implemented" />
+                        </Steps>
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Before Image">
+                        <Image
+                          width={220}
+                          src={`http://10.3.10.209:4541/images/${item.before_image}`}
                         />
-                      }
-                      title={
-                        <>
-                        <a href={`http://meswebspf409.sunpowercorp.com:3004/v/${item.uuid}`}  target="_blank">
-                          {`${item.title}`}
-                          
-                        </a>{` `}
-                        {item.current === 'rejected' ? <Tag color="red" style={{marginLeft: 12}}>{item.current}</Tag> : <Tag color="green"  style={{marginLeft: 12}}>{item.current}</Tag>}
-                        </>
-                      }
-                      description={`${moment(item.status_date).format('llll')}`}
-                    />
-                    {item.proposal}
+                      </Descriptions.Item>
+                    </Descriptions>
                   </List.Item>
                 )}
               />
@@ -414,30 +431,31 @@ const Index = () => {
               )
             }
           </div>
+          </PageHeader>
         </TabPane>
         <TabPane tab={<><Badge count={fa ? fa.length ? fa.length : 0 : 0} offset={[10, 0]}>Feasibility assessment</Badge></>} key="2">
           {
             isFaValidating ? <Spin /> 
             :
-            <div>
+            <PageHeader style={{paddingTop: 0}}>
               <FeasibilityTable fa={fa} user={user} boundFaMutate={boundFaMutate} ra={ra} boundRaMutate={boundRaMutate} ar={ar} boundArMutate={boundArMutate} />
-            </div>
+            </PageHeader>
           }
         </TabPane>
         <TabPane tab={<><Badge count={ra ? ra.length ? ra.length : 0 : 0} offset={[10, 0]}>Risk assessment</Badge></>} key="3">
-          <div>
+          <PageHeader style={{paddingTop: 0}}>
             <RiskAssessmentTable ra={ra} user={user} boundRaMutate={boundRaMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  />
-          </div>
+          </PageHeader>
         </TabPane>
         <TabPane tab={<><Badge count={ar ? ar.length ? ar.length : 0 : 0} offset={[10, 0]}>Action Request</Badge></>} key="4">
-          <div>
+          <PageHeader style={{paddingTop: 0}}>
             <ActionRequestTable ar={ar} user={user} boundArMutate={boundArMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  />
-          </div>
+          </PageHeader>
         </TabPane>
         <TabPane tab={<><Badge count={implementation ? implementation.length ? implementation.length : 0 : 0} offset={[10, 0]}>Implementation</Badge></>} key="5">
-          <div>
-            <ImplementationTable implementation={implementation} user={user} boundImplementationMutate={boundImplementationMutate} />
-          </div>
+          <PageHeader style={{paddingTop: 0}}>
+            <ImplementationTable implementation={implementation} user={user} boundImplementationMutate={boundImplementationMutate} post={post} boundPostMutate={boundPostMutate} />
+          </PageHeader>
         </TabPane>
       </Tabs>
     </Layout>

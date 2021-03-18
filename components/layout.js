@@ -2,6 +2,7 @@ import { Layout, Menu, Button, Typography, Avatar, BackTop } from 'antd'
 import { AuditOutlined, HomeOutlined, ExceptionOutlined, InteractionOutlined, FileSearchOutlined, SearchOutlined, LogoutOutlined, GlobalOutlined, BulbTwoTone, NotificationOutlined, ExperimentOutlined, LikeOutlined, ApartmentOutlined } from '@ant-design/icons'
 import Cookies from 'universal-cookie'
 import NextImage from 'next/image'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 const cookies = new Cookies()
@@ -59,6 +60,9 @@ const LayoutComponent = (props) => {
 
   return (
     <div>
+    <Head>
+      <title>Project Br!ght</title>
+    </Head>
     <BackTop  />
     <Layout>
       <Sider

@@ -10,7 +10,7 @@ import Implement from './implement'
 
 const { Text } = Typography
 
-const ActionRequestImplementationTable = ({implementation, boundImplementationMutate, user}) => {
+const ActionRequestImplementationTable = ({implementation, boundImplementationMutate, user, post, boundPostMutate}) => {
 
   // control state for modal
   const [ visibleImplement, setVisibleImplement ] = useState(false)
@@ -171,6 +171,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
         message.success('Bright idea successfully implemented')
         setLoadingApproveImplementation(false)
         boundImplementationMutate(implementation, true)
+        boundPostMutate(post, true)
  
       } else {
  

@@ -93,6 +93,7 @@ const ApproveFA = ({ visible, onCreate, onCancel, options, setAction_owner }) =>
             },
           ]}
         >
+          {/*
           <AutoComplete
             options={new_options}
             style={{
@@ -105,6 +106,29 @@ const ApproveFA = ({ visible, onCreate, onCancel, options, setAction_owner }) =>
               setAction_owner(option)
             }}
           />
+          */}
+          <Select
+            showSearch
+            placeholder="Search to select"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            filterSort={(optionA, optionB) =>
+              optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+            }
+            allowClear
+            onSelect={(inputValue, option) => {
+              console.log(option.data)
+              setAction_owner(option.data)
+            }}
+          >
+            {
+              new_options.map(data => (
+                <Option key={data.key} value={data.employee_number} data={data}>{data.value}</Option>
+              ))
+            }
+          </Select>
         </Form.Item>
         <Form.Item
           name="impact"
