@@ -385,8 +385,8 @@ const Index = () => {
                     ]}
                   >
                     <Descriptions bordered size="small">
-                      <Descriptions.Item label="BI ID" span={3}>{item.bi_id}</Descriptions.Item>
-                      <Descriptions.Item label="BI Title" span={3}>{item.title}</Descriptions.Item>
+                      <Descriptions.Item label="ID" span={3}><Typography><Paragraph copyable>{item.bi_id}</Paragraph></Typography></Descriptions.Item>
+                      <Descriptions.Item label="Title" span={3}>{item.title}</Descriptions.Item>
                       <Descriptions.Item label="Submitted on" span={3}>{moment(item.status_date).format('LLLL')}</Descriptions.Item>
                       <Descriptions.Item label="Status" span={3}>{item.current}</Descriptions.Item>
                       <Descriptions.Item label="Timeline" span={3}>
@@ -410,6 +410,7 @@ const Index = () => {
                           <Step title="Implemented" />
                         </Steps>
                       </Descriptions.Item>
+                      <Descriptions.Item label="Proposal" span={3}>{item.proposal}</Descriptions.Item>
                       <Descriptions.Item label="Before Image">
                         <Image
                           width={220}
@@ -449,7 +450,7 @@ const Index = () => {
         </TabPane>
         <TabPane tab={<><Badge count={ar ? ar.length ? ar.length : 0 : 0} offset={[10, 0]}>Action Request</Badge></>} key="4">
           <PageHeader style={{paddingTop: 0}}>
-            <ActionRequestTable ar={ar} user={user} boundArMutate={boundArMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  />
+            <ActionRequestTable ar={ar} user={user} boundArMutate={boundArMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  fa={fa} boundFaMutate={boundFaMutate}  />
           </PageHeader>
         </TabPane>
         <TabPane tab={<><Badge count={implementation ? implementation.length ? implementation.length : 0 : 0} offset={[10, 0]}>Implementation</Badge></>} key="5">

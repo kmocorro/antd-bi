@@ -140,7 +140,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
       fa_assessor_email: user.email,
       //  
       uuid: approveImplementationRecord.uuid,
-      bi_id: approveImplementationRecord.key,
+      bi_id: approveImplementationRecord.bi_id,
       creator: approveImplementationRecord.creator,
       creator_email: approveImplementationRecord.email,
       fa_assessor: approveImplementationRecord.fa_assessor,

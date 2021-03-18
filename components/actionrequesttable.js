@@ -8,7 +8,7 @@ import RejectAR from './rejectar'
 
 const { Text } = Typography
 
-const ActionRequestTable = ({ar, implementation, boundArMutate, boundImplementationMutate, user}) => {
+const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImplementationMutate, boundFaMutate, user}) => {
 
   // record means data of the selected row of the table.
   const [ approveARRecord, setApproveARRecord ] = useState({})
@@ -150,7 +150,7 @@ const ActionRequestTable = ({ar, implementation, boundArMutate, boundImplementat
       fa_assessor_email: user.email,
       //
       uuid: record.uuid,
-      bi_id: record.key,
+      bi_id: record.bi_id,
       creator: record.creator,
       creator_email: record.email,
       fa_assessor: record.fa_assessor,
@@ -214,7 +214,7 @@ const ActionRequestTable = ({ar, implementation, boundArMutate, boundImplementat
         fa_assessor_email: user.email,
         //
         uuid: approveARRecord.uuid,
-        bi_id: approveARRecord.key,
+        bi_id: approveARRecord.bi_id,
         creator: approveARRecord.creator,
         //creator_email: approveARRecord.email,
         fa_assessor: approveARRecord.fa_assessor,
@@ -232,7 +232,7 @@ const ActionRequestTable = ({ar, implementation, boundArMutate, boundImplementat
         setLoadingReject(false)
         message.success('Successfully denied action request')
         boundArMutate(ar, true)
-
+        boundFaMutate(fa, true)
       } else {
 
         setSelectedRowKeys([])

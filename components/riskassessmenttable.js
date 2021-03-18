@@ -156,7 +156,7 @@ const RiskAssessmentTable = ({ra, implementation,  boundRaMutate, boundImplement
         fa_assessor_email: user.email,
         //
         uuid: approveRARecord.uuid,
-        bi_id: approveRARecord.key,
+        bi_id: approveRARecord.bi_id,
         creator: approveRARecord.creator,
         creator_email: approveRARecord.email,
         fa_assessor: approveRARecord.fa_assessor,
@@ -217,7 +217,7 @@ const RiskAssessmentTable = ({ra, implementation,  boundRaMutate, boundImplement
         fa_assessor_email: user.email,
         //
         uuid: approveRARecord.uuid,
-        bi_id: approveRARecord.key,
+        bi_id: approveRARecord.bi_id,
         creator: approveRARecord.creator,
         //creator_email: approveRARecord.email,
         fa_assessor: approveRARecord.fa_assessor,

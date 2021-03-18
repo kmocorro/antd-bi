@@ -198,7 +198,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
       method: 'POST',
       body: JSON.stringify({
         uuid: approveFaRecord.uuid,
-        bi_id: approveFaRecord.key,
+        bi_id: approveFaRecord.bi_id,
         employee_number: user.employee_number, // fa_assessor
         employee_name: user.name,
         //
@@ -245,7 +245,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
 
     let body_post = JSON.stringify({
       uuid: approveFaRecord.uuid,
-      bi_id: approveFaRecord.key,
+      bi_id: approveFaRecord.bi_id,
       employee_number: user.employee_number, // user employee number gosh
       creator: approveFaRecord.creator,
       comment: 'n/a',
@@ -303,7 +303,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
       method: 'POST',
       body: JSON.stringify({
         uuid: approveFaRecord.uuid,
-        bi_id: approveFaRecord.key,
+        bi_id: approveFaRecord.bi_id,
         employee_number: user.employee_number, // fa_assessor
         //
         supervisor: change_approver.employee_number,
@@ -357,7 +357,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
       method: 'POST',
       body: JSON.stringify({
         uuid: approveFaRecord.uuid,
-        bi_id: approveFaRecord.key,
+        bi_id: approveFaRecord.bi_id,
         employee_number: user.employee_number, // fa_assessor
         creator: user.employee_number,
         //
