@@ -394,7 +394,7 @@ const Index = () => {
                           size="small" 
                           current={
                             item.current === 'submitted' || item.current === 'transferred' ? 1
-                            : item.current === 'approved' ? item.with_RA ? 4 : 2
+                            : item.current === 'approved' ? item.with_RA ? 3 : 2
                             : item.current === 'acknowledged' ? 3
                             : item.current === 'implemented' ? 4
                             : item.current === 'rejected' ? 1 : 0
