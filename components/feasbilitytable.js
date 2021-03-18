@@ -244,12 +244,12 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
     headers.append('Content-Type', 'application/json');
 
     let body_post = JSON.stringify({
-      uuid: approveFaRecord.uuid,
-      bi_id: approveFaRecord.bi_id,
+      uuid: record.uuid,
+      bi_id: record.bi_id,
       employee_number: user.employee_number, // user employee number gosh
-      creator: approveFaRecord.creator,
+      creator: record.creator,
       comment: 'n/a',
-      employee_name: approveFaRecord.name
+      employee_name: record.name
     })
 
     console.log(body_post)

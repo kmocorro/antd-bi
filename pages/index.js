@@ -397,7 +397,7 @@ const Index = () => {
                             : item.current === 'approved' ? 2
                             : item.current === 'acknowledged' ? 3
                             : item.current === 'implemented' ? 4
-                            : 0
+                            : item.current === 'rejected' ? 1 : 0
                           }
 
                           status={
