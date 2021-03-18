@@ -404,10 +404,10 @@ const Index = () => {
                             item.current === 'rejected' ? 'error' : ''
                           }
                         >
-                          <Step title="Submitted" />
-                          <Step title="Approved" />
-                          <Step title="Acknowledged" />
-                          <Step title="Implemented" />
+                          <Step title="Submitted" description={item.status_date ? moment(item.status_date).format('YYYY-MM-DD H:mm:ss') : ''} />
+                          <Step title="Approved" description={item.with_RA ? item.ra_date ? item._ra_date : '' : item.fa_date ? item.fa_date : '' } />
+                          <Step title="Acknowledged" description={item.action_date ? moment(item.action_date).format('lll') : ''} />
+                          <Step title="Implemented" description={item.implementation_date ? moment(item.implementation_date).format('lll') : ''} />
                         </Steps>
                       </Descriptions.Item>
                       <Descriptions.Item label="Proposal" span={3}>{item.proposal}</Descriptions.Item>
@@ -417,6 +417,17 @@ const Index = () => {
                           src={`http://10.3.10.209:4541/images/${item.before_image}`}
                         />
                       </Descriptions.Item>
+                      {
+                      item.after_imgPath ? 
+                      <Descriptions.Item label="After Image">
+                        <Image
+                          width={220}
+                          src={`http://10.3.10.209:4541/images/${item.after_imgPath}`}
+                        />
+                      </Descriptions.Item>
+                      :
+                      <></>
+                      }
                     </Descriptions>
                   </List.Item>
                 )}
