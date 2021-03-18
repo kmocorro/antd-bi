@@ -405,7 +405,7 @@ const Index = () => {
                           }
                         >
                           <Step title="Submitted" description={item.status_date ? moment(item.status_date).format('YYYY-MM-DD H:mm:ss') : ''} />
-                          <Step title="Approved" description={item.with_RA ? item.ra_date ? moment(item._ra_date).format('YYYY-MM-DD H:mm:ss') : '' : item.fa_date ? moment(item.fa_date).format('YYYY-MM-DD H:mm:ss') : '' } />
+                          <Step title="Approved" description={item.with_RA ? item.ra_date ? moment(item.ra_date).format('YYYY-MM-DD H:mm:ss') : '' : item.fa_date ? moment(item.fa_date).format('YYYY-MM-DD H:mm:ss') : '' } />
                           <Step title="Acknowledged" description={item.action_date ? moment(item.action_date).format('YYYY-MM-DD H:mm:ss') : ''} />
                           <Step title="Implemented" description={item.implementation_date ? moment(item.implementation_date).format('YYYY-MM-DD H:mm:ss') : ''} />
                         </Steps>
