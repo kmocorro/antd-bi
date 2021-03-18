@@ -245,7 +245,7 @@ const columns = [
     dataIndex: 'sps_team',
   },
   {
-    title: 'Benefactor',
+    title: 'Beneficiary',
     dataIndex: 'benefactor',
   },
 ];

@@ -6,8 +6,9 @@ import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
 import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col, Tabs, Badge, Spin, PageHeader, Divider, Steps, Descriptions   } from 'antd'
-import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined, LikeOutlined, DislikeOutlined, ExperimentOutlined, SoundOutlined, CheckCircleOutlined, SafetyCertificateOutlined, LinkOutlined, ExceptionOutlined, BulbOutlined } from '@ant-design/icons'
+import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined, LikeOutlined, DislikeOutlined, ExperimentOutlined, SoundOutlined, CheckCircleOutlined, SafetyCertificateOutlined, LinkOutlined, ExceptionOutlined, BulbOutlined, EditOutlined, UserOutlined } from '@ant-design/icons'
 import CreateBrightIdeaForm from '../components/createbi'
+import ProfileForm from '../components/profile'
 import Cookies from 'universal-cookie'
 const { Title, Paragraph, Text } = Typography
 const cookies = new Cookies()
@@ -48,12 +49,13 @@ function useUser(token){
       isError: 'No token'
     }
   }
-  const { data, error } = useSWR(`http://10.3.10.209:4541/getuserprofile/${token}`, fetcher)
+  const { data, error, mutate } = useSWR(`http://10.3.10.209:4541/getuserprofile/${token}`, fetcher)
   
   return {
     user: data,
     isLoading: !error && !data,
-    isError: error
+    isError: error,
+    boundUserMutate: mutate
   }
 }
 
@@ -179,7 +181,8 @@ const Index = () => {
 
   const token = cookies.get('token')
   const [ onCreateResponse, setOnCreateResponse ] = useState('')
-  const { user, isLoading, isError } = useUser(token)
+  const [ onCreateProfileResponse, setOnCreateProfileResponse ] = useState('')
+  const { user, isLoading, isError, boundUserMutate } = useUser(token)
   const { fa, isFaLoading, isFaError, isFaValidating, boundFaMutate } = useFaAssessor(token, user)
   const { ra, isRaLoading, isRaError, boundRaMutate } = useRaAssessor(token, user)
   const { ar, isArLoading, isArError, boundArMutate } = useActionRequest(token, user)
@@ -187,6 +190,7 @@ const Index = () => {
   const { post, isPostLoading, isPostError, boundPostMutate } = usePost(token, user)
   const { postAll, isPostAllLoading, isPostAllError, boundPostAllMutate } = usePostAll()
   const [visible, setVisible] = useState(false)
+  const [ visibleProfile, setVisibleProfile ] = useState(false)
 
   if(onCreateResponse === 'success'){
     message.success('Bright idea successfully created!');
@@ -196,6 +200,14 @@ const Index = () => {
     message.error('Error while saving BI. Try again.');
     setOnCreateResponse('')
     boundPostMutate()
+  }
+
+  if(onCreateProfileResponse === 'success'){
+    message.success('Profile successfully updated!')
+    setOnCreateProfileResponse('')
+  }else if(onCreateProfileResponse === 'failed'){
+    message.error('Error saving changes on your profile.')
+    setOnCreateProfileResponse('')
   }
 
   const onCreate = async (values) => {
@@ -233,6 +245,29 @@ const Index = () => {
 
   };
 
+  const onCreateProfile = async (values) => {
+    //console.log('Received values of form: ', values);
+    setVisibleProfile(false);
+
+    let body_fields = JSON.stringify({
+      employee_number: user.employee_number,
+      sps_team: values.sps_team,
+      shift: values.shift,
+    })
+    
+    let response = await fetch('http://10.3.10.209:4541/updateprofile', {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: body_fields
+    })
+    
+    if(response.status === 200){
+      setOnCreateProfileResponse(await response.json())
+      boundUserMutate(user, true)
+    }
+
+  };
+
   const [ submitted, setSubmitted ] = useState([])
   const [ approved, setApproved ] = useState([])
   const [ acknowledged, setAcknowledged ] = useState([])
@@ -255,7 +290,7 @@ const Index = () => {
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
   console.log(post)
-  //console.log(user)
+  console.log(user)
 
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
@@ -275,9 +310,10 @@ const Index = () => {
               value={0} 
               suffix={<StarTwoTone twoToneColor="#FFD700" />} 
             />
+            <Space>
             <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
             <Button 
-              type="dashed" 
+              type="primary" 
               icon={<PlusOutlined />} 
               onClick={() => {
                 setOnCreateResponse('')
@@ -288,6 +324,19 @@ const Index = () => {
               Submit a Bright Idea
             </Button>
             </Tooltip>
+            <Button 
+              type="default" 
+              icon={<UserOutlined />} 
+              onClick={() => {
+                boundUserMutate(user, true)
+                setOnCreateProfileResponse('')
+                setVisibleProfile(true);
+              }}
+              style={{marginTop: 10}}
+            >
+              Profile
+            </Button>
+            </Space>
           </div>
         </div>
         </Card>
@@ -297,6 +346,15 @@ const Index = () => {
           onCancel={() => {
             setOnCreateResponse('')
             setVisible(false);
+          }}
+        />
+        <ProfileForm
+          user={user}
+          visible={visibleProfile}
+          onCreate={onCreateProfile}
+          onCancel={() => {
+            setOnCreateProfileResponse('')
+            setVisibleProfile(false);
           }}
         />
       </div>

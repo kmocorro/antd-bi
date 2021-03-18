@@ -42,7 +42,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
           setApproveImplementationRecord(record)
         }}
       >
-        Implemented
+        Implement
       </Menu.Item>
     </Menu>
   )
