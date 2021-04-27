@@ -5,7 +5,7 @@ import NextImage from 'next/image'
 import useSWR from 'swr'
 import { v4 as uuidV4 } from 'uuid';
 import Layout from '../components/layout'
-import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col, Tabs, Badge, Spin, PageHeader, Divider, Steps, Descriptions   } from 'antd'
+import { Button, Tooltip, Typography, message, Card, List, Avatar, Space, Skeleton, Image, Tag, Empty, Statistic, Row, Col, Tabs, Badge, Spin, PageHeader, Divider, Steps, Descriptions, Alert   } from 'antd'
 import { PlusOutlined, SendOutlined, StarTwoTone, QuestionCircleOutlined, LikeOutlined, DislikeOutlined, ExperimentOutlined, SoundOutlined, CheckCircleOutlined, SafetyCertificateOutlined, LinkOutlined, ExceptionOutlined, BulbOutlined, EditOutlined, UserOutlined } from '@ant-design/icons'
 import CreateBrightIdeaForm from '../components/createbi'
 import ProfileForm from '../components/profile'
@@ -312,33 +312,53 @@ const Index = () => {
               value={0} 
               suffix={<StarTwoTone twoToneColor="#FFD700" />} 
             />
-            <Space>
-            <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
-            <Button 
-              type="primary" 
-              icon={<PlusOutlined />} 
-              onClick={() => {
-                setOnCreateResponse('')
-                setVisible(true);
-              }}
-              style={{marginTop: 10}}
-            >
-              Submit a Bright Idea
-            </Button>
-            </Tooltip>
-            <Button 
-              type="default" 
-              icon={<UserOutlined />} 
-              onClick={() => {
-                boundUserMutate(user, true)
-                setOnCreateProfileResponse('')
-                setVisibleProfile(true);
-              }}
-              style={{marginTop: 10}}
-            >
-              Profile
-            </Button>
-            </Space>
+            {
+              user.sps_team && user.shift ? (
+                <Space>
+                <Tooltip title="Click here to submit your bright idea." placement="bottomLeft">
+                <Button 
+                  type="primary" 
+                  icon={<PlusOutlined />} 
+                  onClick={() => {
+                    setOnCreateResponse('')
+                    setVisible(true);
+                  }}
+                  style={{marginTop: 10}}
+                >
+                  Submit a Bright Idea
+                </Button>
+                </Tooltip>
+                <Button 
+                  type="default" 
+                  icon={<UserOutlined />} 
+                  onClick={() => {
+                    boundUserMutate(user, true)
+                    setOnCreateProfileResponse('')
+                    setVisibleProfile(true);
+                  }}
+                  style={{marginTop: 10}}
+                >
+                  Profile
+                </Button>
+                </Space>
+              ):(
+                <Space direction="vertical" style={{marginTop: 20}}>
+                <Alert showIcon message="Update your profile to submit your Bright Idea" type="info" />
+                <Button 
+                  type="default" 
+                  icon={<UserOutlined />} 
+                  onClick={() => {
+                    boundUserMutate(user, true)
+                    setOnCreateProfileResponse('')
+                    setVisibleProfile(true);
+                  }}
+                  style={{marginTop: 10}}
+                >
+                  Edit Profile
+                </Button>
+                </Space>
+              )
+            }
           </div>
         </div>
         </div>
