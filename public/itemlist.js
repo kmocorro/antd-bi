@@ -24,7 +24,7 @@ const spsteam_list = [
   {id: 23, name: 'Support - Purchasing'},
   {id: 24, name: 'Support - QA + Wet & Dry Lab'},
   {id: 25, name: 'Support - Reliability'},
-  {id: 26, name: 'Support - Yield'},
+  {id: 26, name: 'Support - Yield'}
 ];
 const benefactor_list = [
   {id: 1, name: 'Cluster 1 (Damage - NTM)'},
@@ -53,6 +53,8 @@ const benefactor_list = [
   {id: 24, name: 'Support - QA + Wet & Dry Lab'},
   {id: 25, name: 'Support - Reliability'},
   {id: 26, name: 'Support - Yield'},
+  {id: 27, name: 'All'}
+
 ];
 const initialImpact_list = [
   {id: 1, name: 'Quality'},

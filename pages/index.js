@@ -295,11 +295,13 @@ const Index = () => {
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div style={{marginBottom: 16}}>
-        <Card>
+        <div>
         <div style={{ display: 'flex'}}>
+          {/*
           <div style={{margin: 10}}>
             <NextImage src="/doge_square.png" width={150} height={150} />
           </div>
+          */}
           <div style={{marginTop: 8}}>
             <Typography>
               <Title level={3}>Hi {user.name}!</Title>
@@ -339,7 +341,7 @@ const Index = () => {
             </Space>
           </div>
         </div>
-        </Card>
+        </div>
         <CreateBrightIdeaForm
           visible={visible}
           onCreate={onCreate}
@@ -359,12 +361,12 @@ const Index = () => {
         />
       </div>
       <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Dashboard" key="1">
+        <TabPane tab="My Dashboard" key="1">
           <PageHeader>
             <Row gutter={[16, 16]}>
               <Col span={4}>
                 <Statistic 
-                  title={<>Total BI <Tooltip title="Number of bright ideas that you have submitted" placement="right">
+                  title={<>Total BI <Tooltip title="Number of your bright ideas that you have submitted" placement="right">
                   <QuestionCircleOutlined /></Tooltip></>} 
                   value={post ? post.length > 0 ? post.length : 0 : 0}
                   prefix={<BulbOutlined />}
@@ -372,7 +374,7 @@ const Index = () => {
               </Col>
               <Col span={4}>
                 <Statistic 
-                  title={<>Submitted <Tooltip title="Number of bright ideas for feasibility and risk assessment" placement="right">
+                  title={<>Submitted <Tooltip title="Number of your bright ideas for feasibility and risk assessment" placement="right">
                   <QuestionCircleOutlined /></Tooltip></>} 
                   value={submitted ? submitted.length > 0 ? submitted.length : 0 : 0}
                   prefix={<ExperimentOutlined />}
@@ -380,7 +382,7 @@ const Index = () => {
               </Col>
               <Col span={4}>
                 <Statistic 
-                  title={<>Approved <Tooltip title="Number of bright ideas for action request" placement="right">
+                  title={<>Approved <Tooltip title="Number of your bright ideas for action request" placement="right">
                   <QuestionCircleOutlined /></Tooltip></>} 
                   value={approved ? approved.length > 0 ? approved.length : 0 : 0}
                   prefix={<LikeOutlined />}
@@ -388,7 +390,7 @@ const Index = () => {
               </Col>
               <Col span={4}>
                 <Statistic 
-                  title={<>Acknowledged <Tooltip title="Number of bright ideas for implementation" placement="right">
+                  title={<>Acknowledged <Tooltip title="Number of your bright ideas for implementation" placement="right">
                   <QuestionCircleOutlined /></Tooltip></>} 
                   value={acknowledged ? acknowledged.length > 0 ? acknowledged.length : 0 : 0}
                   prefix={<LinkOutlined />}
@@ -396,7 +398,7 @@ const Index = () => {
               </Col>
               <Col span={4}>
                 <Statistic 
-                  title={<>Implemented <Tooltip title="Number of bright ideas that has been implemented" placement="right">
+                  title={<>Implemented <Tooltip title="Number of your bright ideas that has been implemented" placement="right">
                   <QuestionCircleOutlined /></Tooltip></>} 
                   value={implemented ? implemented.length > 0 ? implemented.length : 0 : 0}
                   prefix={<SafetyCertificateOutlined />}
@@ -404,7 +406,7 @@ const Index = () => {
               </Col>
               <Col span={4}>
                 <Statistic 
-                  title={<>Rejected <Tooltip title="Number of bright ideas that has been rejected" placement="right">
+                  title={<>Rejected <Tooltip title="Number of your bright ideas that has been rejected" placement="right">
                   <QuestionCircleOutlined /></Tooltip></>} 
                   value={rejected ? rejected.length > 0 ? rejected.length : 0 : 0}
                   prefix={<ExceptionOutlined />}
@@ -503,7 +505,7 @@ const Index = () => {
           </div>
           </PageHeader>
         </TabPane>
-        <TabPane tab={<><Badge count={fa ? fa.length ? fa.length : 0 : 0} offset={[10, 0]}>Feasibility assessment</Badge></>} key="2">
+        <TabPane tab={<><Badge count={fa ? fa.length ? fa.length : 0 : 0} offset={[10, 0]}>For Feasibility assessment</Badge></>} key="2">
           {
             isFaValidating ? <Spin /> 
             :
@@ -512,17 +514,17 @@ const Index = () => {
             </PageHeader>
           }
         </TabPane>
-        <TabPane tab={<><Badge count={ra ? ra.length ? ra.length : 0 : 0} offset={[10, 0]}>Risk assessment</Badge></>} key="3">
+        <TabPane tab={<><Badge count={ra ? ra.length ? ra.length : 0 : 0} offset={[10, 0]}>For Risk assessment</Badge></>} key="3">
           <PageHeader style={{paddingTop: 0}}>
             <RiskAssessmentTable ra={ra} user={user} boundRaMutate={boundRaMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate} post={post}  boundPostMutate={boundPostMutate} />
           </PageHeader>
         </TabPane>
-        <TabPane tab={<><Badge count={ar ? ar.length ? ar.length : 0 : 0} offset={[10, 0]}>Action Request</Badge></>} key="4">
+        <TabPane tab={<><Badge count={ar ? ar.length ? ar.length : 0 : 0} offset={[10, 0]}>My Action Request</Badge></>} key="4">
           <PageHeader style={{paddingTop: 0}}>
             <ActionRequestTable ar={ar} user={user} boundArMutate={boundArMutate} implementation={implementation}  boundImplementationMutate={boundImplementationMutate}  fa={fa} boundFaMutate={boundFaMutate}  />
           </PageHeader>
         </TabPane>
-        <TabPane tab={<><Badge count={implementation ? implementation.length ? implementation.length : 0 : 0} offset={[10, 0]}>Implementation</Badge></>} key="5">
+        <TabPane tab={<><Badge count={implementation ? implementation.length ? implementation.length : 0 : 0} offset={[10, 0]}>For Implementation</Badge></>} key="5">
           <PageHeader style={{paddingTop: 0}}>
             <ImplementationTable implementation={implementation} user={user} boundImplementationMutate={boundImplementationMutate} post={post} boundPostMutate={boundPostMutate} />
           </PageHeader>

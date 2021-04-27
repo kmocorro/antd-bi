@@ -51,6 +51,10 @@ const LayoutComponent = (props) => {
     router.push('/summary')
     setSelectedKey('2')
   }
+  const onSearch = () => {
+    router.push('/search')
+    setSelectedKey('3')
+  }
 
   const onLogout = () => {
     cookies.remove()
@@ -96,6 +100,9 @@ const LayoutComponent = (props) => {
           </Menu.Item>
           <Menu.Item key="2" onClick={onSummary} icon={<FileSearchOutlined />}>
             Summary
+          </Menu.Item>
+          <Menu.Item key="3" onClick={onSearch} icon={<SearchOutlined />}>
+            Search
           </Menu.Item>
           {/*
           <Menu.Item key="6" icon={<SearchOutlined />} >

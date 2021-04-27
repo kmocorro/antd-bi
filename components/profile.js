@@ -45,7 +45,7 @@ const ProfileForm = ({ visible, onCreate, onCancel, user }) => {
       <Form
         form={form}
         layout="vertical"
-        name="form_in_modal"
+        name="form_in_modal"  
       >
         <Form.Item
           name="sps_team"

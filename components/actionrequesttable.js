@@ -39,7 +39,7 @@ const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImpleme
           approveAR(record)
         }}
       >
-        Acknowledged
+        Acknowledge
       </Menu.Item>
       <Menu.Item 
         danger 
@@ -110,10 +110,10 @@ const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImpleme
   const approveAR = (record) => {
     
     Modal.confirm({
-      title: `Acknowledged action request`,
+      title: `Acknowledge action request`,
       icon: <ExclamationCircleOutlined style={{color: 'gray'}} />,
-      content: `${record.key ? `${record.bi_id} ${selectedRowKeys.length > 1 ? ' bright ideas are' : ' bright idea is'}` : ''} acknowledegd?`,
-      okText: 'Acknowledged',
+      content: `${record.key ? `${record.bi_id} ${selectedRowKeys.length > 1 ? ' bright ideas are' : ' bright idea is'}` : ''} acknowledge?`,
+      okText: 'Confirm',
       cancelText: 'Cancel',
       onOk: () => {onApproveAR(record)},
       okButtonProps: { type: 'primary' },
