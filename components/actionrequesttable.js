@@ -245,7 +245,7 @@ const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImpleme
 
   return (
     <div>
-    <Table columns={columns} dataSource={updatedAR} size="small" style={{marginTop: 12}} pagination={{defaultPageSize: 5}}/>
+    <Table columns={columns} dataSource={updatedAR} size="small" style={{marginTop: 12}} pagination={{defaultPageSize: 5}} scroll={{ x: 1800 }} />
     <RejectAR 
       visible={visibleRejectAR}
       onCreate={onCreateRejectAR}

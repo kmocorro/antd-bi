@@ -413,7 +413,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
 
   return (
     <div>
-      <Table columns={columns} dataSource={updatedFa} size="small" style={{marginTop: 12}} pagination={{defaultPageSize: 5}}/>
+      <Table columns={columns} dataSource={updatedFa} size="small" style={{marginTop: 12}} pagination={{defaultPageSize: 5}} scroll={{ x: 1800 }} />
       <ApproveFa 
         visible={visibleApproveFA}
         onCreate={onCreateApproveFA}

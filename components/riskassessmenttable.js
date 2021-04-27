@@ -259,7 +259,7 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
 
   return (
     <div>
-    <Table columns={columns} dataSource={updatedRA} size="small" style={{marginTop: 12}} pagination={{defaultPageSize: 5}}/>
+    <Table columns={columns} dataSource={updatedRA} size="small" style={{marginTop: 12}} pagination={{defaultPageSize: 5}} scroll={{ x: 1800 }} />
     <ApproveRA 
       visible={visibleApproveRA}
       onCreate={onCreateApproveRA}
