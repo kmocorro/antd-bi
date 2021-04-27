@@ -147,7 +147,7 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4541/approveriskassessment`,{
+    let response = await fetch(`http://10.3.10.209:4881/approveriskassessment`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({
@@ -209,7 +209,7 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4541/rejectriskassessment`,{
+    let response = await fetch(`http://10.3.10.209:4881/rejectriskassessment`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({

@@ -193,7 +193,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4541/feasible_without_RA`,{
+    let response = await fetch(`http://10.3.10.209:4881/feasible_without_RA`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({
@@ -254,7 +254,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
 
     console.log(body_post)
 
-    let response = await fetch(`http://10.3.10.209:4541/notfeasible`,{
+    let response = await fetch(`http://10.3.10.209:4881/notfeasible`,{
       headers: headers,
       method: 'POST',
       body: body_post
@@ -298,7 +298,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4541/changesupervisor`,{
+    let response = await fetch(`http://10.3.10.209:4881/changesupervisor`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({
@@ -352,7 +352,7 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4541/forriskassessment`,{
+    let response = await fetch(`http://10.3.10.209:4881/forriskassessment`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({
