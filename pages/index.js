@@ -467,6 +467,7 @@ const Index = () => {
                     <Descriptions bordered size="small">
                       <Descriptions.Item label="ID" span={3}><Typography><Paragraph copyable>{item.bi_id}</Paragraph></Typography></Descriptions.Item>
                       <Descriptions.Item label="Title" span={3}>{item.title}</Descriptions.Item>
+                      <Descriptions.Item label="SPS Team" span={3}>{item.sps_team}</Descriptions.Item>
                       <Descriptions.Item label="Submitted on" span={3}>{moment(item.status_date).format('LLLL')}</Descriptions.Item>
                       <Descriptions.Item label="Status" span={3}>{item.current}</Descriptions.Item>
                       <Descriptions.Item label="Timeline" span={3}>
@@ -490,6 +491,7 @@ const Index = () => {
                           <Step title="Implemented" description={item.implementation_date ? moment(item.implementation_date).format('YYYY-MM-DD H:mm:ss') : ''} />
                         </Steps>
                       </Descriptions.Item>
+                      <Descriptions.Item label="Current Practice" span={3}>{item.current_practice}</Descriptions.Item>
                       <Descriptions.Item label="Proposal" span={3}>{item.proposal}</Descriptions.Item>
                       <Descriptions.Item label="Before Image">
                         <Image

@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     a.submission_year,
     a.bi_number, 
     a.bi_id, a.title, a.uuid, a.creator, 
-    c.name, c.email, c.sps_team, c.shift, 
+    c.name, c.email, a.sps_team, c.shift, 
     b.activeStep, 
     b.current,
     a.proposal, a.current_practice, a.benefactor, a.initial_impact, a.initial_status, a.status_date, a.before_imgPath, a.after_imgPath,
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     OR a.bi_id LIKE '%${fields.search}%' 
     OR a.title LIKE '%${fields.search}%' 
     OR c.name LIKE '%${fields.search}%' 
-    OR c.sps_team LIKE '%${fields.search}%'
+    OR a.sps_team LIKE '%${fields.search}%'
     OR a.benefactor LIKE '%${fields.search}%' 
     OR a.initial_impact LIKE '%${fields.search}%' 
     OR a.proposal LIKE '%${fields.search}%' 
