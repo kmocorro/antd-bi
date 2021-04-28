@@ -80,6 +80,7 @@ const initialImpact_list = [
   {id: 7, name: 'Safety'},
   {id: 8, name: '5S'},
   {id: 9, name: 'Facilities'},
+  {id: 10, name: 'Productivity'},
 ];
 const shift_list = [
   {id: 1, name: 'X'},
