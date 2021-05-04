@@ -23,6 +23,7 @@ const LayoutComponent = (props) => {
     : router.pathname === '/implementation' ? '5' 
     */
     : router.pathname === '/summary' ? '2' 
+    : router.pathname === '/search' ? '3' 
     : ''
   )
 

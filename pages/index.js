@@ -289,8 +289,8 @@ const Index = () => {
   if(isError) return <div><FrontLandingPage/></div>
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
-  console.log(post)
-  console.log(user)
+  //console.log(post)
+  //console.log(user)
 
   return (
     <Layout name={user.name} employee_number={user.employee_number}>

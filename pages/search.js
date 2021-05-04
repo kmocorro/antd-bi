@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Layout from '../components/layout'
-import { Typography, Cascader, Table, Button, message, Input } from 'antd'
+import { Typography, Cascader, Table, Button, message, Input, Image } from 'antd'
 import { CSVLink, CSVDownload } from "react-csv"
 import { DownloadOutlined } from '@ant-design/icons'
 const { Title } = Typography
@@ -219,6 +219,22 @@ const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
+  },
+  {
+    title: 'Before Image',
+    key: 'before_imgPath',
+    render: (text, img) => (
+      <Image src={`http://10.3.10.209:4881/images/${img.before_imgPath}`} />
+    ),
+  },
+  {
+    title: 'After Image',
+    key: 'before_imgPath',
+    render: (text, img) => (
+      img.after_imgPath ? 
+      <Image src={`http://10.3.10.209:4881/images/${img.after_imgPath}`} />
+      : <></>
+    ),
   },
   {
     title: 'Status',

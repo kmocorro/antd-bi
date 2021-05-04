@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, Space, Button, message, Modal, Checkbox, Typography, Tooltip, Menu, Dropdown } from 'antd'
+import { Table, Tag, Space, Button, message, Modal, Checkbox, Typography, Tooltip, Menu, Dropdown, Image } from 'antd'
 import { CheckOutlined, CloseOutlined, ExclamationCircleOutlined, DownOutlined   } from '@ant-design/icons';
 import ApproveFa from '../components/approvefa'
 import ChangeApprover from './changeapprover';
@@ -87,6 +87,13 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+    },
+    {
+      title: 'Image',
+      key: 'before_imgPath',
+      render: (text, img) => (
+        <Image src={`http://10.3.10.209:4881/images/${img.before_imgPath}`} />
+      ),
     },
     {
       title: 'Title',
@@ -410,6 +417,8 @@ const FeasibilityTable = ({fa, ra, ar, boundRaMutate, boundFaMutate, boundArMuta
       setUpdatedFa(fa.map(({bi_number: key, ...fa}) => ({key, ...fa})))
     }
   }, [fa])
+
+  console.log(updatedFa)
 
   return (
     <div>
