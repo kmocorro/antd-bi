@@ -210,15 +210,11 @@ const Index = () => {
     setOnCreateProfileResponse('')
   }
 
-  const onCreate = async (values) => {
-    //console.log('Received values of form: ', values);
-    setVisible(false);
 
-    let image2upload = [{
-      blob: (values.before_imageArray[0].thumbUrl).replace(/^data:image\/.*;base64,/, ""),
-      path: (values.before_imageArray[0].name)
-    }]
-
+  const onCreate = async (values, image) => {
+    console.log('Received values of form: ', values);
+    setVisible(false)
+    
     let body_fields = JSON.stringify({
       uuid: uuidV4(),
       title: values.title,
@@ -229,8 +225,10 @@ const Index = () => {
       proposal: values.proposal,
       benefactor: values.benefactor,
       initial_impact: values.initial_impact,
-      before_imageArray: image2upload
+      before_imageArray: image
     })
+
+    //console.log(body_fields)
     
     let response = await fetch('http://10.3.10.209:4881/submit', {
       headers: { 'Content-Type': 'application/json' },
@@ -242,8 +240,8 @@ const Index = () => {
       setOnCreateResponse(await response.json())
       boundFaMutate(fa, true)
     }
-
   };
+
 
   const onCreateProfile = async (values) => {
     //console.log('Received values of form: ', values);

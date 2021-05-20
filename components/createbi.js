@@ -1,4 +1,4 @@
-import { useState } from 'next'
+import { useState } from 'react'
 import { Button, Modal, Form, Input, Radio, Select, Upload} from 'antd'
 const { Option } = Select;
 import { benefactor_list, initialImpact_list } from '../public/itemlist'
@@ -16,6 +16,11 @@ const normFile = (e) => {
 
 const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
+
+  const [ image, setImage ] = useState([])
+
+  //console.log(image)
+
   return (
     <Modal
       visible={visible}
@@ -28,7 +33,7 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
           .validateFields()
           .then((values) => {
             form.resetFields();
-            onCreate(values);
+            onCreate(values, image);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);
@@ -41,6 +46,43 @@ const CreateBrightIdeaForm = ({ visible, onCreate, onCancel }) => {
         name="form_in_modal"
         initialValues={{
           modifier: 'public',
+        }}
+        onFieldsChange={(changedfields, allfields) => {
+         // console.log(changedfields)
+          if(changedfields[0].name[0] === "before_imageArray" && changedfields[0].value[0] !== undefined){
+            //setImage([])
+
+            const picture = changedfields[0].value[0].originFileObj
+
+            const ImageData = new Promise((resolve, reject) => {
+              const reader = new FileReader();
+
+              reader.readAsDataURL(picture)
+              reader.onload = () => {
+                if(!!reader.result){
+                  resolve(reader.result)
+                } else {
+                  reject(Error("failed converting to base64"))
+                }
+              }
+            })
+
+            ImageData.then(result => {
+              setImage([
+                Object.assign(picture, {
+                  preview: URL.createObjectURL(picture),
+                  blob:  result.replace(/^data:image\/.*;base64,/, ""),
+                  buffer: new Buffer(result, 'base64'),
+                  path: picture.name 
+                })
+              ])
+            }, (err) => {
+              console.log(err)
+            })
+          } else {
+            setImage([])
+          }
+
         }}
       >
         <Form.Item
