@@ -19,7 +19,7 @@ function useUser(token){
       isError: 'No token'
     }
   }
-  const { data, error } = useSWR(`http://10.3.10.209:4881/getuserprofile/${token}`, fetcher)
+  const { data, error } = useSWR(`http://10.3.10.209:4541/getuserprofile/${token}`, fetcher)
   
   return {
     user: data,
@@ -37,7 +37,7 @@ const fetchWithArBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useActionRequest(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideaforactionowner/${token}`, user] : null, fetchWithArBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforactionowner/${token}`, user] : null, fetchWithArBody)
   return {
     ar: data,
     isArLoading: !error && !data,

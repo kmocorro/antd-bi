@@ -49,7 +49,7 @@ function useUser(token){
       isError: 'No token'
     }
   }
-  const { data, error, mutate } = useSWR(`http://10.3.10.209:4881/getuserprofile/${token}`, fetcher)
+  const { data, error, mutate } = useSWR(`http://10.3.10.209:4541/getuserprofile/${token}`, fetcher)
   
   return {
     user: data,
@@ -68,7 +68,7 @@ const fetchWithPostBody = (url, user) => fetch(url, {
   })
 }).then(r => r.json())
 function usePost(token, user) {
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideacreatedbyuser/${token}`, user] : null, fetchWithPostBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideacreatedbyuser/${token}`, user] : null, fetchWithPostBody)
   return {
     post: data,
     isPostLoading: !error && !data,
@@ -87,7 +87,7 @@ const fetchWithFaBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useFaAssessor(token, user){
-  const { data, error, isValidating, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
+  const { data, error, isValidating, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
   return {
     fa: data,
     isFaLoading: !error && !data,
@@ -107,7 +107,7 @@ const fetchWithRaBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useRaAssessor(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideaforriskassessor/${token}`, user] : null, fetchWithRaBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforriskassessor/${token}`, user] : null, fetchWithRaBody)
   return {
     ra: data,
     isRaLoading: !error && !data,
@@ -126,7 +126,7 @@ const fetchWithArBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useActionRequest(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideaforactionowner/${token}`, user] : null, fetchWithArBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforactionowner/${token}`, user] : null, fetchWithArBody)
   return {
     ar: data,
     isArLoading: !error && !data,
@@ -145,7 +145,7 @@ const fetchWithImpBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useImplementation(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideaforimplementation/${token}`, user] : null, fetchWithImpBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforimplementation/${token}`, user] : null, fetchWithImpBody)
   return {
     implementation: data,
     isImplementationLoading: !error && !data,
@@ -167,7 +167,7 @@ const fetchWithAllPost = (url) => fetch(url, {
   })
 }).then(r => r.json())
 function usePostAll(){
-  const { data, error, mutate } = useSWR(`http://10.3.10.209:4881/search`, fetchWithAllPost)
+  const { data, error, mutate } = useSWR(`http://10.3.10.209:4541/search`, fetchWithAllPost)
   //console.log(data)
   return {
     postAll: data,
@@ -230,7 +230,7 @@ const Index = () => {
 
     //console.log(body_fields)
     
-    let response = await fetch('http://10.3.10.209:4881/submit', {
+    let response = await fetch('http://10.3.10.209:4541/submit', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: body_fields
@@ -253,7 +253,7 @@ const Index = () => {
       shift: values.shift,
     })
     
-    let response = await fetch('http://10.3.10.209:4881/updateprofile', {
+    let response = await fetch('http://10.3.10.209:4541/updateprofile', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: body_fields
@@ -494,7 +494,7 @@ const Index = () => {
                       <Descriptions.Item label="Before Image">
                         <Image
                           width={220}
-                          src={`http://10.3.10.209:4881/images/${item.before_image}`}
+                          src={`http://10.3.10.209:4541/images/${item.before_image}`}
                         />
                       </Descriptions.Item>
                       {
@@ -502,7 +502,7 @@ const Index = () => {
                       <Descriptions.Item label="After Image">
                         <Image
                           width={220}
-                          src={`http://10.3.10.209:4881/images/${item.after_imgPath}`}
+                          src={`http://10.3.10.209:4541/images/${item.after_imgPath}`}
                         />
                       </Descriptions.Item>
                       :

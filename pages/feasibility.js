@@ -20,7 +20,7 @@ function useUser(token){
       isError: 'No token'
     }
   }
-  const { data, error } = useSWR(`http://10.3.10.209:4881/getuserprofile/${token}`, fetcher)
+  const { data, error } = useSWR(`http://10.3.10.209:4541/getuserprofile/${token}`, fetcher)
   
   return {
     user: data,
@@ -38,7 +38,7 @@ const fetchWithFaBody = (url, user) => fetch(url, {
 }).then(r => r.json())
 // get user for feasibility assessment data 
 function useFaAssessor(token, user){
-  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4881/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
+  const { data, error, mutate } = useSWR( user ? [`http://10.3.10.209:4541/showbrightideaforfaassessor/${token}`, user] : null, fetchWithFaBody)
   return {
     fa: data,
     isFaLoading: !error && !data,
