@@ -26,7 +26,6 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
   // state for selecting row.
   const [ selectedRowKeys, setSelectedRowKeys ] = useState([])
 
-
   // table actions
   const menu = (record) => (
     <Menu>
