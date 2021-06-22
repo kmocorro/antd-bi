@@ -5,7 +5,7 @@ import { UploadOutlined } from '@ant-design/icons'
 import moment from 'moment'
 const { Option } = Select
 
-const Implement = ({ visible, onCreate, onCancel, options }) => {
+const Implement = ({ visible, onCreate, onCancel, options, status_date_fa }) => {
   const [form] = Form.useForm();
   
   const new_options = options.map(option => 
@@ -35,7 +35,7 @@ const Implement = ({ visible, onCreate, onCancel, options }) => {
 
   const disabledDate = (current) => {
     // Can not select days before today and today
-    return current && current < moment().endOf('day');
+    return current && current <= moment(status_date_fa)
   }
 
   return (

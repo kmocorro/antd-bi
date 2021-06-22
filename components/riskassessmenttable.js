@@ -76,7 +76,7 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
       title: 'Image',
       key: 'before_imgPath',
       render: (text, img) => (
-        <Image src={`http://10.3.10.209:4881/images/${img.before_imgPath}`} />
+        <Image src={`http://10.3.10.209:4541/images/${img.before_imgPath}`} />
       ),
     },
     {
@@ -154,7 +154,7 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4881/approveriskassessment`,{
+    let response = await fetch(`http://10.3.10.209:4541/approveriskassessment`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({
@@ -216,7 +216,7 @@ const RiskAssessmentTable = ({ra, implementation, post,  boundRaMutate, boundImp
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4881/rejectriskassessment`,{
+    let response = await fetch(`http://10.3.10.209:4541/rejectriskassessment`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({

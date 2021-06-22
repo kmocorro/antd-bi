@@ -78,7 +78,7 @@ const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImpleme
       title: 'Image',
       key: 'before_imgPath',
       render: (text, img) => (
-        <Image src={`http://10.3.10.209:4881/images/${img.before_imgPath}`} />
+        <Image src={`http://10.3.10.209:4541/images/${img.before_imgPath}`} />
       ),
     },
     {
@@ -164,7 +164,7 @@ const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImpleme
       
     })
  
-    let response = await fetch(`http://10.3.10.209:4881/acknowledgeaction`,{
+    let response = await fetch(`http://10.3.10.209:4541/acknowledgeaction`,{
       headers: headers,
       method: 'POST',
       body: body_fields
@@ -212,7 +212,7 @@ const ActionRequestTable = ({ar, implementation, fa, boundArMutate, boundImpleme
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let response = await fetch(`http://10.3.10.209:4881/actiondenied`,{
+    let response = await fetch(`http://10.3.10.209:4541/actiondenied`,{
       headers: headers,
       method: 'POST',
       body: JSON.stringify({

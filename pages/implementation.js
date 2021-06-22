@@ -56,8 +56,6 @@ const ImplementationPage = () => {
   if(!token) return <div>Please login. <Link href="/login" style={{color:"blue"}}>go to login</Link></div>
   if(!user) return <div><FrontLoading /></div>
 
-  console.log(implementation)
-
   return (
     <Layout name={user.name} employee_number={user.employee_number}>
       <div>

@@ -27,6 +27,9 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
   // state for selecting row.
   const [ selectedRowKeys, setSelectedRowKeys ] = useState([])
 
+  // state for status_date_fa
+  const [ status_date_fa, setStatus_date_fa ] = useState('')
+
   useEffect(() =>{
     if(implementation){
       setUpdatedImplementation(implementation.map(({bi_number: key, ...implementation}) => ({key, ...implementation})))
@@ -73,7 +76,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
       title: 'Image',
       key: 'before_imgPath',
       render: (text, img) => (
-        <Image src={`http://10.3.10.209:4881/images/${img.before_imgPath}`} />
+        <Image src={`http://10.3.10.209:4541/images/${img.before_imgPath}`} />
       ),
     },
     {
@@ -125,6 +128,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
 
   const onApproveImplement = (record) => {
     setVisibleImplement(true)
+    setStatus_date_fa(record.status_date_fa)
   }
   
   const onCreateImplement = async (values) => {
@@ -160,13 +164,11 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
       
     })
  
-    let response = await fetch(`http://10.3.10.209:4881/implemented`,{
+    let response = await fetch(`http://10.3.10.209:4541/implemented`,{
       headers: headers,
       method: 'POST',
       body: body_fields
     })
-
-    console.log(body_fields)
     
     setSelectedRowKeys([])
     setLoadingApproveImplementation(true)
@@ -195,7 +197,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
     getAutoFillSearch();
     async function getAutoFillSearch(){
       //let response = await fetch('http://10.3.10.209:4546/autofillsearch');
-      let response = await fetch('http://10.3.10.209:4881/autofillsearch');
+      let response = await fetch('http://10.3.10.209:4541/autofillsearch');
       if(response.status === 200){
         setOptions(await response.json());
       }
@@ -213,6 +215,7 @@ const ActionRequestImplementationTable = ({implementation, boundImplementationMu
         setVisibleImplement(false);
       }}
       options={options}
+      status_date_fa={status_date_fa}
     />
     </div>
   )
