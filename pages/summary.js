@@ -225,7 +225,7 @@ const columns = [
     key: 'before_imgPath',
     render: (text, img) => (
       img.before_imgPath ? 
-      <Image src={`http://10.3.10.209:4541/images/${img.before_imgPath}`} />
+      <Image src={`http://10.3.10.209:4881/images/${img.before_imgPath}`} />
       : <></>
     ),
   },
@@ -234,7 +234,7 @@ const columns = [
     key: 'before_imgPath',
     render: (text, img) => (
       img.after_imgPath ? 
-      <Image src={`http://10.3.10.209:4541/images/${img.after_imgPath}`} />
+      <Image src={`http://10.3.10.209:4881/images/${img.after_imgPath}`} />
       : <></>
     ),
   },
